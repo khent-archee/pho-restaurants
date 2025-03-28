@@ -1,0 +1,234 @@
+
+import React from "react";
+
+import { MapPin, Clock, Phone, Globe, DollarSign } from "lucide-react";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { Badge } from "@/components/ui/badge";
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import { Restaurant } from "@/app/types/reastaurant";
+import { getCategoryIcon, getTrueFeatures } from "@/app/helper/utils";
+import { notFound } from "next/navigation";
+import { createClient } from "@/utils/supabase/client";
+
+async function fetchPost(id: string): Promise<Restaurant | null> {
+  const supabase = await createClient();
+  const { data: restaurantData, error } = await supabase
+    .from("restaurants")
+    .select("*")
+    .eq("id", id)
+    .single();
+
+  if (error || !restaurantData) {
+    console.error(error);
+    return null;
+  }
+
+  return restaurantData;
+}
+
+export default async function RestaurantPage({
+  params,
+}: {
+  params: Promise<{ id: string }>
+}) {
+  const { id } = await params;
+  const restaurantData = await fetchPost(id);
+
+  if (!restaurantData) {
+    return notFound(); 
+  }
+
+  const categories = Object.keys(restaurantData.about);
+  const mainCategories = ["Features", "Dining", "Accessibility"];
+
+  return (
+    <main className="min-h-screen bg-background">
+      <article className="container mx-auto px-4 py-8">
+        {/* Hero Section */}
+        <section className="relative h-[400px] rounded-xl overflow-hidden mb-8">
+          <img
+            src={restaurantData.photo}
+            alt={restaurantData.name}
+            className="w-full h-full object-cover"
+          />
+          <div className="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black/70 to-transparent p-6">
+            <h1 className="text-4xl font-bold text-white mb-2">
+              {restaurantData.name}
+            </h1>
+            <p className="text-white/90 text-lg">
+              {restaurantData.description}
+            </p>
+          </div>
+        </section>
+
+        {/* Quick Info Section */}
+        <section className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
+          <Card>
+            <CardHeader className="flex flex-row items-center space-x-2">
+              <MapPin className="h-5 w-5 text-primary" />
+              <CardTitle>Location</CardTitle>
+            </CardHeader>
+            <CardContent>
+              <address className="not-italic">
+                {restaurantData.full_address}
+              </address>
+            </CardContent>
+          </Card>
+
+          <Card>
+            <CardHeader className="flex flex-row items-center space-x-2">
+              <Clock className="h-5 w-5 text-primary" />
+              <CardTitle>Hours</CardTitle>
+            </CardHeader>
+            <CardContent>
+              <div className="grid grid-cols-2 gap-2 text-sm">
+                {Object.entries(restaurantData.working_hours).map(
+                  ([day, hours]) => (
+                    <div key={day} className="flex justify-between">
+                      <span className="font-medium">{day}</span>
+                      <span>{hours}</span>
+                    </div>
+                  )
+                )}
+              </div>
+            </CardContent>
+          </Card>
+
+          <Card>
+            <CardHeader className="flex flex-row items-center space-x-2">
+              <DollarSign className="h-5 w-5 text-primary" />
+              <CardTitle>Price Range & Contact</CardTitle>
+            </CardHeader>
+            <CardContent className="space-y-2">
+              <div className="flex items-center space-x-2">
+                <Badge variant="secondary">{restaurantData.range}</Badge>
+                <span className="text-sm text-muted-foreground">
+                  Price Range
+                </span>
+              </div>
+              <div className="flex items-center space-x-2">
+                <Phone className="h-4 w-4" />
+                <a
+                  href={`tel:${restaurantData.phone}`}
+                  className="text-sm hover:underline"
+                >
+                  {restaurantData.phone}
+                </a>
+              </div>
+              <div className="flex items-center space-x-2">
+                <Globe className="h-4 w-4" />
+                <a
+                  href={restaurantData.site}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="text-sm hover:underline"
+                >
+                  Visit Website
+                </a>
+              </div>
+            </CardContent>
+          </Card>
+        </section>
+
+        {/* Detailed Information */}
+        <section className="mb-8">
+          <Tabs defaultValue="features" className="w-full">
+            <TabsList className="grid w-full grid-cols-3">
+              {mainCategories.map((category) => (
+                <TabsTrigger key={category} value={category.toLowerCase()}>
+                  {category}
+                </TabsTrigger>
+              ))}
+            </TabsList>
+
+            <TabsContent value="features">
+              <Card>
+                <CardContent className="pt-6">
+                  <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+                    {["Atmosphere", "Parking", "Offerings"].map((category) => (
+                      <div key={category}>
+                        <h3 className="font-semibold flex items-center gap-2 mb-3">
+                          {getCategoryIcon(category)} {category}
+                        </h3>
+                        <div className="flex flex-wrap gap-2">
+                          {getTrueFeatures(restaurantData.about[category]).map(
+                            (item) => (
+                              <Badge key={item} variant="secondary">
+                                {item}
+                              </Badge>
+                            )
+                          )}
+                        </div>
+                      </div>
+                    ))}
+                  </div>
+                </CardContent>
+              </Card>
+            </TabsContent>
+
+            <TabsContent value="dining">
+              <Card>
+                <CardContent className="pt-6">
+                  <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                    {["Service options", "Popular for"].map((category) => (
+                      <div key={category}>
+                        <h3 className="font-semibold flex items-center gap-2 mb-3">
+                          {getCategoryIcon(category)} {category}
+                        </h3>
+                        <div className="flex flex-wrap gap-2">
+                          {getTrueFeatures(restaurantData.about[category]).map(
+                            (item) => (
+                              <Badge key={item} variant="secondary">
+                                {item}
+                              </Badge>
+                            )
+                          )}
+                        </div>
+                      </div>
+                    ))}
+                  </div>
+                </CardContent>
+              </Card>
+            </TabsContent>
+
+            <TabsContent value="accessibility">
+              <Card>
+                <CardContent className="pt-6">
+                  <div className="space-y-4">
+                    {getTrueFeatures(restaurantData.about.Accessibility).map(
+                      (item) => (
+                        <div key={item} className="flex items-center gap-2">
+                          <Badge
+                            variant="secondary"
+                            className="h-2 w-2 rounded-full p-0"
+                          />
+                          {item}
+                        </div>
+                      )
+                    )}
+                  </div>
+                </CardContent>
+              </Card>
+            </TabsContent>
+          </Tabs>
+        </section>
+      </article>
+    </main>
+  );
+}
+
+export async function generateStaticParams() {
+  const supabase = await createClient();
+  const { data: restaurants, error } = await supabase
+    .from("restaurants")
+    .select("id");
+
+  if (error || !restaurants) {
+    console.error(error);
+    return [];
+  }
+
+  return restaurants.map((restaurant) => ({
+    id: restaurant.id.toString(),
+  }));
+}
