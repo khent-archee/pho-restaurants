@@ -116,7 +116,7 @@ export default async function RestaurantPage({
           <Card>
             <CardHeader className="flex flex-row items-center space-x-2">
               <Clock className="h-5 w-5 text-primary" />
-              <CardTitle>Hours</CardTitle>
+              <CardTitle>Hours Open</CardTitle>
             </CardHeader>
             <CardContent>
               <div className="flex flex-col gap-2 text-sm">
@@ -181,9 +181,10 @@ export default async function RestaurantPage({
             </CardContent>
           </Card>
         </section>
-
+        
         {/* Detailed Information */}
-        <section className="mb-8">
+        <section className="flex flex-col gap-4 mb-8">
+          <h2 className="text-xl font-semibold ">Detailed Information</h2>
           <Tabs defaultValue="features" className="w-full">
             <TabsList className="grid w-full grid-cols-4">
               {mainCategories.map((category) => (

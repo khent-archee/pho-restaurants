@@ -38,24 +38,23 @@ export const getRemainingFeatures = (
     .map((item) => item);
 };
 
-export const mainCategories = ["Features", "Dining", "Accessibility", "others"];
+export const mainCategories = ["Features", "Dining", "Accessibility", "Others"];
 export const features = [
-  "Popular for",
   "Atmosphere",
-  "Amenities",
-  "Offerings",
+  "Highlights",
   "Payments",
   "Pets",
   "Planning",
 ];
 export const dining = [
+  "Popular for",
   "Service options",
   "Dining options",
-  "Highlights",
   "Offerings",
 ];
 export const accessibility = [
   "Accessibility",
+  "Amenities",
   "Parking",
   "Crowd",
 ];
