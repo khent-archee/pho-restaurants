@@ -181,7 +181,7 @@ export default async function RestaurantPage({
             </CardContent>
           </Card>
         </section>
-        
+
         {/* Detailed Information */}
         <section className="flex flex-col gap-4 mb-8">
           <h2 className="text-xl font-semibold ">Detailed Information</h2>
@@ -320,7 +320,7 @@ export async function generateStaticParams() {
   const supabase = await createClient();
   const { data: restaurants, error } = await supabase
     .from("restaurants")
-    .select("id");
+    .select("id, us_state, city");
 
   if (error || !restaurants) {
     console.error(error);
@@ -329,5 +329,7 @@ export async function generateStaticParams() {
 
   return restaurants.map((restaurant) => ({
     id: restaurant.id.toString(),
+    state: restaurant.us_state.toString(),
+    city: restaurant.city.toString(),
   }));
 }

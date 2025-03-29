@@ -1,9 +1,9 @@
 import { ThemeSwitcher } from "@/components/theme-switcher";
-import { Geist } from "next/font/google";
+import { Merriweather, Merriweather_Sans } from "next/font/google";
 import { ThemeProvider } from "next-themes";
 import "./globals.css";
-import { Button } from "@/components/ui/button";
 import Link from "next/link";
+import Logo from "@/components/HeaderLogo";
 
 const defaultUrl = process.env.VERCEL_URL
   ? `https://${process.env.VERCEL_URL}`
@@ -11,13 +11,21 @@ const defaultUrl = process.env.VERCEL_URL
 
 export const metadata = {
   metadataBase: new URL(defaultUrl),
-  title: "Next.js and Supabase Starter Kit",
-  description: "The fastest way to build apps with Next.js and Supabase",
+  title: "Pho Restaurants",
+  description: "Find your next meal",
 };
 
-const geistSans = Geist({
+const merriSans = Merriweather_Sans({
   display: "swap",
   subsets: ["latin"],
+  variable: "--font-merriweather_sans",
+});
+
+const merriweather = Merriweather({
+  display: "swap",
+  subsets: ["latin"],
+  weight: "900",
+  variable: "--font-merriweather",
 });
 
 export default function RootLayout({
@@ -26,7 +34,7 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en" className={geistSans.className} suppressHydrationWarning>
+    <html lang="en" className={merriSans.className} suppressHydrationWarning>
       <body className="bg-background text-foreground">
         <ThemeProvider
           attribute="class"
@@ -39,7 +47,7 @@ export default function RootLayout({
               <nav className="w-full flex justify-center border-b border-b-foreground/10 h-16">
                 <div className="w-full max-w-5xl flex justify-between items-center p-3 px-5 text-sm">
                   <Link href="/" passHref>
-                    <Button>Restaurants</Button>
+                    <Logo />
                   </Link>
                   <ThemeSwitcher />
                 </div>
