@@ -21,4 +21,7 @@ export interface Restaurant {
   };
   range: string;
   description: string;
+  location_link: string;
+  location_review_link: string,
+  booking_appointment_link: string,
 }
