@@ -29,10 +29,6 @@ export default function Home() {
         .select("*")
         .or(`name.ilike.%${searchTerm}%, full_address.ilike.%${searchTerm}%`);
 
-      if (searchTerm) {
-        query = query.ilike("name", `%${searchTerm}%`);
-      }
-
       const { data, error } = await query;
 
       if (error) {

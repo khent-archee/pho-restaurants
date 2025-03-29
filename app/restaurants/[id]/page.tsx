@@ -28,7 +28,7 @@ const daysOrder = [
   "Sunday",
 ];
 
-async function fetchPost(id: string): Promise<Restaurant | null> {
+async function fetchRestaurants(id: string): Promise<Restaurant | null> {
   const supabase = await createClient();
   const { data: restaurantData, error } = await supabase
     .from("restaurants")
@@ -50,7 +50,7 @@ export default async function RestaurantPage({
   params: Promise<{ id: string }>;
 }) {
   const { id } = await params;
-  const restaurantData = await fetchPost(id);
+  const restaurantData = await fetchRestaurants(id);
 
   if (!restaurantData) {
     return notFound();
