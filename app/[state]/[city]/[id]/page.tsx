@@ -164,16 +164,19 @@ export default async function RestaurantPage({
         <section className="flex flex-col gap-4 mb-8">
           <h2 className="text-xl font-semibold ">Detailed Information</h2>
           <Tabs defaultValue="features" className="w-full">
-            <TabsList className="grid w-full grid-cols-4">
+            <TabsList className="grid w-full grid-cols-4 !bg-transparent">
               {mainCategories.map((category) => (
-                <TabsTrigger key={category} value={category.toLowerCase()}>
+                <TabsTrigger
+                  key={category}
+                  className="data-[state=active]:!border-b-4 data-[state=active]:!border-orange-500"
+                  value={category.toLowerCase()}
+                >
                   {category}
                 </TabsTrigger>
               ))}
             </TabsList>
-
             <TabsContent value="features">
-              <Card>
+              <Card className="border-none">
                 <CardContent className="pt-6">
                   <div className="space-y-6">
                     {features.map((category) => (
@@ -204,7 +207,7 @@ export default async function RestaurantPage({
             </TabsContent>
 
             <TabsContent value="dining">
-              <Card>
+              <Card className="border-none">
                 <CardContent className="pt-6">
                   <div className="space-y-6">
                     {dining.map((category) => (
@@ -234,7 +237,7 @@ export default async function RestaurantPage({
             </TabsContent>
 
             <TabsContent value="accessibility">
-              <Card>
+              <Card className="border-none">
                 <CardContent className="pt-6">
                   <div className="space-y-6">
                     {accessibility.map((category) => (
@@ -264,7 +267,7 @@ export default async function RestaurantPage({
             </TabsContent>
 
             <TabsContent value="others">
-              <Card>
+              <Card className="border-none">
                 <CardContent className="pt-6">
                   <div className="space-y-6">
                     {getRemainingFeatures(restaurantData.about)
