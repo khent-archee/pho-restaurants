@@ -4,6 +4,8 @@ import { ThemeProvider } from "next-themes";
 import "./globals.css";
 import Link from "next/link";
 import Logo from "@/components/HeaderLogo";
+import { Button } from "@/components/ui/button";
+import { Search } from "lucide-react";
 
 const defaultUrl = process.env.VERCEL_URL
   ? `https://${process.env.VERCEL_URL}`
@@ -38,21 +40,29 @@ export default function RootLayout({
       <body className="bg-background text-foreground">
         <ThemeProvider
           attribute="class"
-          defaultTheme="system"
+          defaultTheme="light"
           enableSystem
           disableTransitionOnChange
         >
           <main className="min-h-screen flex flex-col items-center">
-            <div className="flex-1 w-full flex flex-col gap-20 items-center">
+            <div className="flex-1 w-full flex flex-col items-center">
               <nav className="w-full flex justify-center border-b border-b-foreground/10 h-16">
-                <div className="w-full max-w-5xl flex justify-between items-center p-3 px-5 text-sm">
+                <div className="w-full max-w-7xl flex justify-between items-center p-3 px-5 text-sm">
                   <Link href="/" passHref>
                     <Logo />
                   </Link>
-                  <ThemeSwitcher />
+                  <div className="flex flex-row gap-4">
+                    {/* <Button asChild variant="ghost">
+                      <Link href="/search" passHref>
+                        <Search className="w-10 h-5" />
+                        Search
+                      </Link>
+                    </Button> */}
+                    <ThemeSwitcher />
+                  </div>
                 </div>
               </nav>
-              <div className="flex flex-col gap-20 max-w-5xl w-full p-5 ">
+              <div className="flex flex-col gap-20 max-w-7xl w-full ">
                 {children}
               </div>
             </div>

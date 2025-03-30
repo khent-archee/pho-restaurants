@@ -17,6 +17,7 @@ import {
 } from "@/app/helper/utils";
 import { notFound } from "next/navigation";
 import { createClient } from "@/utils/supabase/client";
+import { Button } from "@/components/ui/button";
 
 const daysOrder = [
   "Monday",
@@ -56,64 +57,84 @@ export default async function RestaurantPage({
     return notFound();
   }
 
-  const categories = Object.keys(restaurantData.about);
 
   return (
-    <main className="min-h-screen bg-background">
-      <article className="container mx-auto px-4 py-8">
+    <main className="min-h-screen bg-background flex flex-col justify-center items-center gap-4 ">
+      <article className="mx-auto w-full">
         {/* Hero Section */}
-        <section className="relative h-[400px] rounded-xl overflow-hidden mb-8">
+        <section className="relative h-96 overflow-hidden mb-8">
           <img
             src={restaurantData.photo}
             alt={restaurantData.name}
             className="w-full h-full object-cover"
           />
-          <div className="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black/70 to-transparent p-6">
-            <h1 className="text-4xl font-bold text-white">
+          <div className="absolute inset-0 bg-gradient-to-t from-black/70 to-transparent flex flex-col gap-4 justify-center items-center p-6 text-center ">
+            <h1 className="text-2xl md:text-5xl font-merri_sans font-bold text-white">
               {restaurantData.name}
             </h1>
-            <p className="text-xs text-white mb-2">
+            <p className="text-sm text-white mb-2">
               {restaurantData.type}{" "}
               {restaurantData.subtypes && `( ${restaurantData.subtypes} )`}
             </p>
-            <p className="text-white/90 text-lg">
-              {restaurantData.description}
-            </p>
+            <div className="flex flex-row gap-2">
+              {restaurantData.site && (
+                <Button
+                  asChild
+                  className="bg-orange-500 hover:bg-orange-800 text-lg"
+                  size="lg"
+                >
+                  <a target="_blank" href={restaurantData.site}>
+                    Visit Website
+                  </a>
+                </Button>
+              )}
+              {restaurantData.location_link && (
+                <Button
+                  asChild
+                  variant="outline"
+                  className="border-orange-800 text-orange-800 bg-transparent hover:bg-orange-500 text-lg"
+                  size="lg"
+                >
+                  <a target="_blank" href={restaurantData.site}>
+                    View on Map
+                  </a>
+                </Button>
+              )}
+            </div>
           </div>
         </section>
 
-        {/* Quick Info Section */}
-        <section className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
-          <Card>
-            <CardHeader className="flex flex-row items-center space-x-2">
-              <MapPin className="h-5 w-5 text-primary" />
-              <CardTitle>Location</CardTitle>
-            </CardHeader>
-            <CardContent className="flex flex-col gap-2">
-              <address className="not-italic text-sm">
-                <span className="text-muted-foreground">State:</span>{" "}
-                {restaurantData.us_state}
-              </address>
-              <address className="not-italic text-sm">
-                <span className="text-muted-foreground">City:</span>{" "}
-                {restaurantData.city}
-              </address>
-              <address className="not-italic text-sm">
-                <span className="text-muted-foreground">Street:</span>{" "}
-                {restaurantData.street}
-              </address>
-              <address className="not-italic text-sm">
-                <span className="text-muted-foreground">Postal:</span>{" "}
-                {restaurantData.postal_code}
-              </address>
-              <address className="not-italic text-sm">
-                <span className="text-muted-foreground">Full Address:</span>{" "}
-                {restaurantData.full_address}
-              </address>
-            </CardContent>
-          </Card>
+        <div className="flex-1 flex flex-col justify-center items-center mb-10">
+          <section className="-mt-[72px] h-20 w-5/6 z-10 bg-orange-400 flex justify-around items-center rounded-lg">
+            <div className="flex items-center space-x-2">
+              <DollarSign className="h-4 w-4" />
+              <span className="text-sm">Price Range</span>
+              <Badge variant="secondary">{restaurantData.range ?? "$"}</Badge>
+            </div>
+            <div className="flex items-center space-x-2">
+              <Phone className="h-4 w-4" />
+              <a
+                href={`tel:${restaurantData.phone}`}
+                className="text-sm hover:underline"
+              >
+                {restaurantData.phone}
+              </a>
+            </div>
+          </section>
+        </div>
 
-          <Card>
+        {/* Quick Info Section */}
+        <section className="flex flex-row gap-6">
+          <div className="flex-1 flex flex-col p-5 gap-4">
+            <h3 className="font-merri font-bold text-4xl text-orange-500">About us</h3>
+            <p className="text-md">
+              {restaurantData.description !== null
+                ? restaurantData.description
+                : `Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.`}
+            </p>
+          </div>
+
+          <Card className="basis-1/3">
             <CardHeader className="flex flex-row items-center space-x-2">
               <Clock className="h-5 w-5 text-primary" />
               <CardTitle>Hours Open</CardTitle>
@@ -131,52 +152,6 @@ export default async function RestaurantPage({
                       <span>{hours}</span>
                     </div>
                   ))}
-              </div>
-            </CardContent>
-          </Card>
-
-          <Card>
-            <CardHeader className="flex flex-row items-center space-x-2">
-              <DollarSign className="h-5 w-5 text-primary" />
-              <CardTitle>Price Range & Contact</CardTitle>
-            </CardHeader>
-            <CardContent className="space-y-2">
-              <div className="flex items-center space-x-2">
-                <span className="text-sm text-muted-foreground">
-                  Price Range
-                </span>
-                <Badge variant="secondary">{restaurantData.range ?? "$"}</Badge>
-              </div>
-              <div className="flex items-center space-x-2">
-                <Phone className="h-4 w-4" />
-                <a
-                  href={`tel:${restaurantData.phone}`}
-                  className="text-sm hover:underline"
-                >
-                  {restaurantData.phone}
-                </a>
-              </div>
-              <div className="flex items-center space-x-2">
-                <Globe className="h-4 w-4" />
-                <a
-                  href={restaurantData.site}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="text-sm hover:underline"
-                >
-                  Visit Website
-                </a>
-              </div>
-              <div className="flex items-center space-x-2">
-                <Map className="h-4 w-4" />
-                <a
-                  href={restaurantData.site}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="text-sm hover:underline"
-                >
-                  View on Map
-                </a>
               </div>
             </CardContent>
           </Card>

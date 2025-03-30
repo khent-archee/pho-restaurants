@@ -42,13 +42,13 @@ export default async function StatesPage({
   }
 
   return (
-    <main className="min-h-screen bg-background">
-      <div>
-        <h1>Restaurants</h1>
+    <main className="min-h-screen bg-background flex flex-col gap-4 p-5">
+      <h1>Restaurants</h1>
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
         {dataList.map((data, key) => (
           <div key={key}>
             <Link href={`/${state}/${city}/${data.id}`}>
-              <Card>
+              <Card className="p-4 hover:shadow-lg transition-shadow h-full border-2">
                 <CardTitle>{data.name}</CardTitle>
               </Card>
             </Link>

@@ -64,7 +64,7 @@ export default function Home() {
           ) : restaurants.length > 0 ? (
             restaurants.map((restaurant) => (
               <Link
-                href={`/restaurants/${restaurant.id}`}
+                href={`/${restaurant.us_state}/${restaurant.city}/${restaurant.id}`}
                 key={restaurant.id}
                 passHref
               >

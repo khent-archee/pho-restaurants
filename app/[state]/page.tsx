@@ -3,6 +3,7 @@ import React from "react";
 import { notFound } from "next/navigation";
 import { createClient } from "@/utils/supabase/client";
 import Link from "next/link";
+import { Card, CardTitle } from "@/components/ui/card";
 
 async function fetchCities(state: string): Promise<string[] | null> {
   const supabase = await createClient();
@@ -34,13 +35,15 @@ export default async function StatesPage({
   }
 
   return (
-    <main className="min-h-screen bg-background">
-      <div>
-        <h1>Cities</h1>
+    <main className="min-h-screen bg-background flex flex-col gap-4 p-5">
+      <h1>Cities</h1>
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 ">
         {citiesData.map((city, key) => (
           <div key={key}>
             <Link href={`/${state}/${city.toLocaleLowerCase()}`}>
-              <p>{city}</p>
+              <Card className="p-4 hover:shadow-lg transition-shadow">
+                <CardTitle>{city}</CardTitle>
+              </Card>
             </Link>
           </div>
         ))}
