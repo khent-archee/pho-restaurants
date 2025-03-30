@@ -25,13 +25,17 @@ async function fetchRestaurants(
   return retaurants;
 }
 
+function fixUrlString(input: string): string {
+  return input.replace(/%20/g, " ");
+}
+
 export default async function StatesPage({
   params,
 }: {
   params: Promise<{ state: string; city: string }>;
 }) {
   const { state, city } = await params;
-  const dataList = await fetchRestaurants(state, city);
+  const dataList = await fetchRestaurants(state, fixUrlString(city));
 
   if (!dataList) {
     return notFound();
