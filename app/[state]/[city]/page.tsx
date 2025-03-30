@@ -3,7 +3,7 @@ import React from "react";
 import { notFound } from "next/navigation";
 import { createClient } from "@/utils/supabase/client";
 import Link from "next/link";
-import { Card, CardTitle } from "@/components/ui/card";
+import { Card, CardContent, CardTitle } from "@/components/ui/card";
 import { Restaurant } from "@/app/types/reastaurant";
 
 async function fetchRestaurants(
@@ -48,8 +48,14 @@ export default async function StatesPage({
         {dataList.map((data, key) => (
           <div key={key}>
             <Link href={`/${state}/${city}/${data.id}`}>
-              <Card className="p-4 hover:shadow-lg transition-shadow h-full border-2">
-                <CardTitle>{data.name}</CardTitle>
+              <Card className="p-4 hover:shadow-lg transition-shadow h-full border-2 py-6">
+                <CardContent className="flex flex-col gap-4">
+                  <CardTitle>{data.name}</CardTitle>
+                  <p className="text-muted-foreground text-xs truncate">
+                    {data.description ??
+                      `Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.`}
+                  </p>
+                </CardContent>
               </Card>
             </Link>
           </div>
