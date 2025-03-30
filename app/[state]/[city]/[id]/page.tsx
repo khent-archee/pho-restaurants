@@ -62,14 +62,15 @@ export default async function RestaurantPage({
       <article className="mx-auto w-full flex flex-col gap-4">
         {/* Hero Section */}
         <section className="relative h-96 overflow-hidden mb-8">
-          <div className="absolute inset-0 bg-black bg-opacity-30 z-10"></div>
-          <img
-            src={restaurantData.photo}
-            alt={restaurantData.name}
-            className="w-full h-full object-cover"
-          />
-          <div className="absolute z-20 inset-0 bg-gradient-to-t from-black/70 to-transparent flex flex-col gap-4 justify-center items-center p-6 text-center ">
-            <h1 className="text-2xl md:text-5xl font-merri_sans font-bold text-white">
+          <div
+            className="absolute inset-0 bg-cover bg-center parallax-image"
+            style={{ backgroundImage: `url(${restaurantData.photo})` }}
+          >
+            <div className="absolute inset-0 bg-black opacity-30" />
+          </div>
+
+          <div className="absolute z-20 inset-0 bg-gradient-to-t from-black/70 to-transparent flex flex-col gap-4 justify-center items-center p-6 text-center">
+            <h1 className="text-2xl md:text-5xl font-bold text-white">
               {restaurantData.name}
             </h1>
             <p className="text-sm text-white mb-2">

@@ -67,3 +67,12 @@
     @apply bg-background text-foreground;
   }
 }
+
+.parallax-image {
+  height: 100%;
+  width: 100%;
+  background-attachment: fixed;
+  background-size: cover;
+  background-position: center;
+}
+
