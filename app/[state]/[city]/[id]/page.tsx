@@ -62,12 +62,13 @@ export default async function RestaurantPage({
       <article className="mx-auto w-full flex flex-col gap-4">
         {/* Hero Section */}
         <section className="relative h-96 overflow-hidden mb-8">
+          <div className="absolute inset-0 bg-black bg-opacity-30 z-10"></div>
           <img
             src={restaurantData.photo}
             alt={restaurantData.name}
             className="w-full h-full object-cover"
           />
-          <div className="absolute inset-0 bg-gradient-to-t from-black/70 to-transparent flex flex-col gap-4 justify-center items-center p-6 text-center ">
+          <div className="absolute z-20 inset-0 bg-gradient-to-t from-black/70 to-transparent flex flex-col gap-4 justify-center items-center p-6 text-center ">
             <h1 className="text-2xl md:text-5xl font-merri_sans font-bold text-white">
               {restaurantData.name}
             </h1>
@@ -104,7 +105,7 @@ export default async function RestaurantPage({
         </section>
 
         <section className="flex-1 flex flex-col justify-center items-center mb-10">
-          <section className="-mt-[80px] h-28 w-full md:w-5/6 z-10 bg-orange-400 flex justify-around items-center rounded-lg">
+          <section className="-mt-[80px] h-28 w-full md:w-5/6 z-20 bg-orange-400 flex justify-around items-center rounded-lg">
             <div className="flex flex-col justify-center items-center space-x-2">
               <div className="rounded-full bg-white dark:bg-black p-3 md:p-5">
                 <DollarSign className="h-4 w-4 text-orange-500" />
@@ -202,7 +203,11 @@ export default async function RestaurantPage({
                               {getTrueFeatures(
                                 restaurantData.about[category]
                               ).map((item) => (
-                                <Badge key={item} variant="secondary" className="p-2 px-4">
+                                <Badge
+                                  key={item}
+                                  variant="secondary"
+                                  className="p-2 px-4"
+                                >
                                   {item}
                                 </Badge>
                               ))}
@@ -232,7 +237,11 @@ export default async function RestaurantPage({
                               {getTrueFeatures(
                                 restaurantData.about[category]
                               ).map((item) => (
-                                <Badge key={item} variant="secondary" className="p-2 px-4">
+                                <Badge
+                                  key={item}
+                                  variant="secondary"
+                                  className="p-2 px-4"
+                                >
                                   {item}
                                 </Badge>
                               ))}
@@ -262,7 +271,11 @@ export default async function RestaurantPage({
                               {getTrueFeatures(
                                 restaurantData.about[category]
                               ).map((item) => (
-                                <Badge key={item} variant="secondary" className="p-2 px-4">
+                                <Badge
+                                  key={item}
+                                  variant="secondary"
+                                  className="p-2 px-4"
+                                >
                                   {item}
                                 </Badge>
                               ))}
@@ -289,7 +302,11 @@ export default async function RestaurantPage({
                           </h3>
                           <div className="flex flex-wrap gap-2">
                             {getTrueFeatures(item[1]).map((item) => (
-                              <Badge key={item} variant="secondary" className="p-2 px-4">
+                              <Badge
+                                key={item}
+                                variant="secondary"
+                                className="p-2 px-4"
+                              >
                                 {item}
                               </Badge>
                             ))}
