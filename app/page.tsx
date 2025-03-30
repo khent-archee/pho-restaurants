@@ -29,13 +29,14 @@ export default async function RestaurantPage() {
   }
 
   return (
-    <main className="min-h-screen bg-background flex flex-col gap-4 p-5">
+    <main className="min-h-screen bg-background flex flex-col gap-4 p-5 mt-10">
       <h1>States</h1>
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 ">
         {statesData.map((state, key) => (
           <div key={key}>
             <Link href={`/${state.toLowerCase()}`}>
-              <Card className="p-4 hover:shadow-lg transition-shadow">
+              <Card className="p-4 hover:shadow-lg transition-shadow overflow-hidden flex flex-col gap-4">
+                <div className="w-[calc(100% + 80px)] h-2 bg-orange-500 -mt-4 -mx-10" />
                 <CardTitle>{state}</CardTitle>
               </Card>
             </Link>

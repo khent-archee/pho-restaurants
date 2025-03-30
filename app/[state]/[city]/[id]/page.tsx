@@ -57,7 +57,6 @@ export default async function RestaurantPage({
     return notFound();
   }
 
-
   return (
     <main className="min-h-screen bg-background flex flex-col justify-center items-center gap-4 ">
       <article className="mx-auto w-full">
@@ -126,7 +125,9 @@ export default async function RestaurantPage({
         {/* Quick Info Section */}
         <section className="flex flex-row gap-6">
           <div className="flex-1 flex flex-col p-5 gap-4">
-            <h3 className="font-merri font-bold text-4xl text-orange-500">About us</h3>
+            <h3 className="font-merri font-bold text-4xl text-orange-500">
+              About us
+            </h3>
             <p className="text-md">
               {restaurantData.description !== null
                 ? restaurantData.description
@@ -134,7 +135,9 @@ export default async function RestaurantPage({
             </p>
           </div>
 
-          <Card className="basis-1/3">
+          <Card className="basis-1/3 overflow-hidden">
+            {/* <Card className="p-4 hover:shadow-lg transition-shadow h-full border-2 overflow-hidden"> */}
+            <div className="w-full h-2 bg-orange-500 " />
             <CardHeader className="flex flex-row items-center space-x-2">
               <Clock className="h-5 w-5 text-primary" />
               <CardTitle>Hours Open</CardTitle>

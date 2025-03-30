@@ -29,6 +29,11 @@ function fixUrlString(input: string): string {
   return input.replace(/%20/g, " ");
 }
 
+function capitalizeFirstLetter(str: string): string {
+  if (!str) return ""; // Handle empty strings
+  return str.charAt(0).toUpperCase() + str.slice(1).toLowerCase();
+}
+
 export default async function StatesPage({
   params,
 }: {
@@ -43,18 +48,37 @@ export default async function StatesPage({
 
   return (
     <main className="min-h-screen bg-background flex flex-col gap-4 p-5">
-      <h1>Restaurants</h1>
+      <h1>
+        Total pho restaurants found in{" "}
+        <span className="text-orange-500">
+          {capitalizeFirstLetter(fixUrlString(city))}
+          {","}
+        </span>{" "}
+        <span className="text-orange-500">{capitalizeFirstLetter(state)}</span>
+        {": "}
+        {dataList.length}
+      </h1>
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
         {dataList.map((data, key) => (
           <div key={key}>
             <Link href={`/${state}/${city}/${data.id}`}>
-              <Card className="p-4 hover:shadow-lg transition-shadow h-full border-2 py-6">
-                <CardContent className="flex flex-col gap-4">
+              <Card className="p-4 hover:shadow-lg transition-shadow h-full border-2 overflow-hidden">
+                <div className="w-[calc(100% + 80px)] h-2 bg-orange-500 -mt-4 -mx-10" />
+                <CardContent className="flex flex-col gap-2 py-4">
                   <CardTitle>{data.name}</CardTitle>
-                  <p className="text-muted-foreground text-xs truncate">
-                    {data.description ??
-                      `Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.`}
-                  </p>
+                  <div className="w-full h-[2px] bg-orange-500" />
+                  <div className="flex flex-col gap-1">
+                    <p className="text-muted-foreground text-xs truncate">
+                      {data.description ??
+                        `Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.`}
+                    </p>
+                    <p className="text-black text-xs truncate">
+                      <span className="text-muted-foreground">
+                        Price Range:{" "}
+                      </span>
+                      {data.range}{" "}
+                    </p>
+                  </div>
                 </CardContent>
               </Card>
             </Link>
