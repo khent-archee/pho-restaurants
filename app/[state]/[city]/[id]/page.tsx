@@ -59,7 +59,7 @@ export default async function RestaurantPage({
 
   return (
     <main className="min-h-screen bg-background flex flex-col justify-center items-center gap-4 ">
-      <article className="mx-auto w-full">
+      <article className="mx-auto w-full flex flex-col gap-4">
         {/* Hero Section */}
         <section className="relative h-96 overflow-hidden mb-8">
           <img
@@ -79,7 +79,7 @@ export default async function RestaurantPage({
               {restaurantData.site && (
                 <Button
                   asChild
-                  className="bg-orange-500 hover:bg-orange-800 text-lg"
+                  className="bg-orange-500 hover:bg-orange-800 text-sm md:text-lg"
                   size="lg"
                 >
                   <a target="_blank" href={restaurantData.site}>
@@ -91,10 +91,10 @@ export default async function RestaurantPage({
                 <Button
                   asChild
                   variant="outline"
-                  className="border-orange-800 text-orange-800 bg-transparent hover:bg-orange-500 text-lg"
+                  className="border-orange-800 text-orange-800 bg-transparent hover:bg-orange-500 text-sm md:text-lg"
                   size="lg"
                 >
-                  <a target="_blank" href={restaurantData.site}>
+                  <a target="_blank" href={restaurantData.location_link}>
                     View on Map
                   </a>
                 </Button>
@@ -103,40 +103,50 @@ export default async function RestaurantPage({
           </div>
         </section>
 
-        <div className="flex-1 flex flex-col justify-center items-center mb-10">
-          <section className="-mt-[72px] h-20 w-5/6 z-10 bg-orange-400 flex justify-around items-center rounded-lg">
-            <div className="flex items-center space-x-2">
-              <DollarSign className="h-4 w-4" />
-              <span className="text-sm">Price Range</span>
-              <Badge variant="secondary">{restaurantData.range ?? "$"}</Badge>
+        <section className="flex-1 flex flex-col justify-center items-center mb-10">
+          <section className="-mt-[80px] h-28 w-full md:w-5/6 z-10 bg-orange-400 flex justify-around items-center rounded-lg">
+            <div className="flex flex-col justify-center items-center space-x-2">
+              <div className="rounded-full bg-white dark:bg-black p-3 md:p-5">
+                <DollarSign className="h-4 w-4 text-orange-500" />
+              </div>
+              <p className="text-white dark:text-black">
+                <span className="text-sm">Price Range: &nbsp;</span>
+                {restaurantData.range ?? "$"}
+              </p>
             </div>
-            <div className="flex items-center space-x-2">
-              <Phone className="h-4 w-4" />
+            <div className="flex flex-col gap-2 justify-center items-center space-x-2">
+              <div className="rounded-full bg-white dark:bg-black  p-3 md:p-5">
+                <Phone className="h-4 w-4 text-orange-500" />
+              </div>
               <a
                 href={`tel:${restaurantData.phone}`}
-                className="text-sm hover:underline"
+                className="text-sm hover:underline text-white dark:text-black"
               >
-                {restaurantData.phone}
+                Call: {restaurantData.phone}
               </a>
             </div>
           </section>
-        </div>
+        </section>
 
         {/* Quick Info Section */}
-        <section className="flex flex-row gap-6">
+        <section className="flex flex-col md:flex-row gap-6">
           <div className="flex-1 flex flex-col p-5 gap-4">
             <h3 className="font-merri font-bold text-4xl text-orange-500">
               About us
             </h3>
-            <p className="text-md">
+            <p className="text-sm md:text-md">
               {restaurantData.description !== null
                 ? restaurantData.description
                 : `Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.`}
             </p>
+            <br />
+            <p className="text-sm md:text-md">
+              <span className="text-muted-foreground">Address:&nbsp;</span>
+              {restaurantData.full_address}
+            </p>
           </div>
 
-          <Card className="basis-1/3 overflow-hidden">
-            {/* <Card className="p-4 hover:shadow-lg transition-shadow h-full border-2 overflow-hidden"> */}
+          <Card className="md:basis-1/3 overflow-hidden mx-2 md:mx-0">
             <div className="w-full h-2 bg-orange-500 " />
             <CardHeader className="flex flex-row items-center space-x-2">
               <Clock className="h-5 w-5 text-primary" />
@@ -161,14 +171,14 @@ export default async function RestaurantPage({
         </section>
 
         {/* Detailed Information */}
-        <section className="flex flex-col gap-4 mb-8">
+        <section className="flex flex-col gap-4 mb-8 px-4">
           <h2 className="text-xl font-semibold ">Detailed Information</h2>
           <Tabs defaultValue="features" className="w-full">
             <TabsList className="grid w-full grid-cols-4 !bg-transparent">
               {mainCategories.map((category) => (
                 <TabsTrigger
                   key={category}
-                  className="data-[state=active]:!border-b-4 data-[state=active]:!border-orange-500"
+                  className="data-[state=active]:!border-b-4 data-[state=active]:!border-orange-500 data-[state=active]:!text-orange-500"
                   value={category.toLowerCase()}
                 >
                   {category}
@@ -192,7 +202,7 @@ export default async function RestaurantPage({
                               {getTrueFeatures(
                                 restaurantData.about[category]
                               ).map((item) => (
-                                <Badge key={item} variant="secondary">
+                                <Badge key={item} variant="secondary" className="p-2 px-4">
                                   {item}
                                 </Badge>
                               ))}
@@ -222,7 +232,7 @@ export default async function RestaurantPage({
                               {getTrueFeatures(
                                 restaurantData.about[category]
                               ).map((item) => (
-                                <Badge key={item} variant="secondary">
+                                <Badge key={item} variant="secondary" className="p-2 px-4">
                                   {item}
                                 </Badge>
                               ))}
@@ -252,7 +262,7 @@ export default async function RestaurantPage({
                               {getTrueFeatures(
                                 restaurantData.about[category]
                               ).map((item) => (
-                                <Badge key={item} variant="secondary">
+                                <Badge key={item} variant="secondary" className="p-2 px-4">
                                   {item}
                                 </Badge>
                               ))}
@@ -279,7 +289,7 @@ export default async function RestaurantPage({
                           </h3>
                           <div className="flex flex-wrap gap-2">
                             {getTrueFeatures(item[1]).map((item) => (
-                              <Badge key={item} variant="secondary">
+                              <Badge key={item} variant="secondary" className="p-2 px-4">
                                 {item}
                               </Badge>
                             ))}

@@ -62,21 +62,21 @@ export const others = [...features, ...dining, ...accessibility];
 
 export const getCategoryIcon = (category: string) => {
   const icons: { [key: string]: React.ReactNode } = {
-    Atmosphere: <Users className="h-4 w-4" />,
-    Parking: <Car className="h-4 w-4" />,
-    Offerings: <Coffee className="h-4 w-4" />,
-    Crowd: <Users className="h-4 w-4" />,
-    Children: <Baby className="h-4 w-4" />,
-    Payments: <CreditCard className="h-4 w-4" />,
-    Amenities: <Toilet className="h-4 w-4" />,
-    Highlights: <Star className="h-4 w-4" />,
-    Pets: <PawPrint className="h-4 w-4" />,
-    Planning: <Calendar className="h-4 w-4" />,
-    Accessibility: <Accessibility className="h-4 w-4" />,
-    "From the business": <Handshake className="h-4 w-4" />,
-    "Dining options": <UtensilsCrossed className="h-4 w-4" />,
-    "Service options": <Utensils className="h-4 w-4" />,
-    "Popular for": <Star className="h-4 w-4" />,
+    Atmosphere: <Users className="h-4 w-4 text-orange-500" />,
+    Parking: <Car className="h-4 w-4 text-orange-500" />,
+    Offerings: <Coffee className="h-4 w-4 text-orange-500" />,
+    Crowd: <Users className="h-4 w-4 text-orange-500" />,
+    Children: <Baby className="h-4 w-4 text-orange-500" />,
+    Payments: <CreditCard className="h-4 w-4 text-orange-500" />,
+    Amenities: <Toilet className="h-4 w-4 text-orange-500" />,
+    Highlights: <Star className="h-4 w-4 text-orange-500" />,
+    Pets: <PawPrint className="h-4 w-4 text-orange-500" />,
+    Planning: <Calendar className="h-4 w-4 text-orange-500" />,
+    Accessibility: <Accessibility className="h-4 w-4 text-orange-500" />,
+    "From the business": <Handshake className="h-4 w-4 text-orange-500" />,
+    "Dining options": <UtensilsCrossed className="h-4 w-4 text-orange-500" />,
+    "Service options": <Utensils className="h-4 w-4 text-orange-500" />,
+    "Popular for": <Star className="h-4 w-4 text-orange-500" />,
   };
-  return icons[category] || <Ellipsis className="h-4 w-4" />;
+  return icons[category] || <Ellipsis className="h-4 w-4 text-orange-500" />;
 };
