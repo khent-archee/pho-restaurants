@@ -14,7 +14,8 @@ async function fetchRestaurants(
   const { data: retaurants, error } = await supabase
     .from("restaurants")
     .select()
-    .or(`us_state.ilike.${state}, city.ilike.${city}`);
+    .ilike("us_state", `${state}`)
+    .ilike("city", `${city}`);
 
   if (error || !retaurants) {
     console.error(error);
@@ -44,9 +45,7 @@ export default async function StatesPage({
           <div key={key}>
             <Link href={`/${state}/${city}/${data.id}`}>
               <Card>
-                <CardTitle>
-                  <h1>{data.name}</h1>
-                </CardTitle>
+                <CardTitle>{data.name}</CardTitle>
               </Card>
             </Link>
           </div>
