@@ -38,9 +38,9 @@ export default function RootLayout({
           enableSystem
           disableTransitionOnChange
         >
-          <main className="flex flex-col justify-stretch items-stretch">
+          <main className="flex flex-col justify-stretch items-stretch bg-muted/30">
             <div className="min-h-screen flex-1 w-full flex flex-col items-center">
-              <nav className="relative w-full flex justify-center border-b border-b-primary h-16">
+              <nav className="relative w-full flex justify-center border-b border-b-primary h-16 bg-white dark:bg-black">
                 <div className="max-w-7xl flex justify-between items-center p-3 px-5 text-sm">
                   <Link href="/" passHref>
                     <Logo />
@@ -50,23 +50,25 @@ export default function RootLayout({
                   </div>
                 </div>
               </nav>
-              <div className="flex-1 flex flex-col gap-20 max-w-7xl w-full bg-muted/30">
+              <div className="flex-1 flex flex-col gap-20 max-w-7xl w-full">
                 {children}
               </div>
-              <footer className="max-w-7xl w-full p-6 flex flex-col gap-6">
-                <div className="flex justify-between items-center">
-                  <Logo />
-                  <div className="flex flex-row gap-4">
-                    <Link href="#">Privacy Policy</Link>
-                    <Link href="#">Contact</Link>
-                    <Link href="#">About us</Link>
+              <footer className="w-full flex justify-center p-6 bg-white dark:bg-black">
+                <div className="max-w-7xl w-full flex flex-col gap-6">
+                  <div className="flex justify-between items-center">
+                    <Logo />
+                    <div className="flex flex-row gap-4">
+                      <Link href="#">Privacy Policy</Link>
+                      <Link href="#">Contact</Link>
+                      <Link href="#">About us</Link>
+                    </div>
                   </div>
-                </div>
-                <div className="bg-primary w-full h-[1px]" />
-                <div className="w-full flex items-center justify-center">
-                  <p className="text-sm text-center">
-                    © 2025 Pho Restaurants. All rights reserved.
-                  </p>
+                  <div className="bg-primary w-full h-[1px]" />
+                  <div className="w-full flex items-center justify-center">
+                    <p className="text-sm text-center">
+                      © 2025 Pho Restaurants. All rights reserved.
+                    </p>
+                  </div>
                 </div>
               </footer>
             </div>
