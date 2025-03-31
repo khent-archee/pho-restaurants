@@ -56,7 +56,7 @@ export default async function StatesPage({
   }
 
   return (
-    <main className="min-h-screen bg-background flex flex-col gap-6 p-5 mt-4">
+    <main className="min-h-screen flex flex-col gap-6 p-5 mt-4">
       <h1 className="text-2xl font-medium">
         Pho restaurants in{" "}
         <span className="text-primary">

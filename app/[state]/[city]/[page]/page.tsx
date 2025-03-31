@@ -63,7 +63,7 @@ export default async function StatesPage({
   const pageData = dataList.slice(0, end);
 
   return (
-    <main className="min-h-screen bg-background flex flex-col gap-6 p-5 mt-4">
+    <main className="min-h-screen flex flex-col gap-6 p-5 mt-4">
       <h1 className="text-2xl font-medium">
         Pho restaurants in{" "}
         <span className="text-primary">{decodeURIComponent(decodedCity)}</span>,{" "}

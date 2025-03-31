@@ -73,7 +73,7 @@ export default async function RestaurantPage({
   }
 
   return (
-    <main className="min-h-screen bg-background flex flex-col justify-center items-center gap-4 ">
+    <main className="min-h-screen flex flex-col justify-center items-center gap-4 ">
       <article className="mx-auto w-full flex flex-col gap-4">
         {/* Hero Section */}
         <section className="relative h-96 overflow-hidden mb-8">
@@ -351,5 +351,6 @@ export async function generateStaticParams() {
     id: restaurant.id.toString(),
     state: restaurant.us_state.toString(),
     city: restaurant.city.toString(),
+    page: '1',
   }));
 }

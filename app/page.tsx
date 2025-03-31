@@ -5,6 +5,7 @@ import { createClient } from "@/utils/supabase/client";
 import Link from "next/link";
 import { Card, CardTitle } from "@/components/ui/card";
 import { Metadata } from "next";
+import FAQContent from "@/components/FAQ";
 
 async function fetchStates(): Promise<string[] | null> {
   const supabase = await createClient();
@@ -35,7 +36,7 @@ export default async function RestaurantPage() {
   }
 
   return (
-    <main className="min-h-screen bg-background flex flex-col gap-10 p-5 mt-10">
+    <main className="flex flex-col gap-10 p-5 mt-10">
       <h1 className="text-2xl font-medium">Pho Restaurants by State</h1>
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 ">
         {statesData.map((state, key) => (
@@ -49,6 +50,7 @@ export default async function RestaurantPage() {
           </div>
         ))}
       </div>
+      <FAQContent />
     </main>
   );
 }

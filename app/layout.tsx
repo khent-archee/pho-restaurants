@@ -38,8 +38,8 @@ export default function RootLayout({
           enableSystem
           disableTransitionOnChange
         >
-          <main className="min-h-screen flex flex-col items-center">
-            <div className="flex-1 w-full flex flex-col items-center">
+          <main className="flex flex-col justify-stretch items-stretch">
+            <div className="min-h-screen flex-1 w-full flex flex-col items-center">
               <nav className="relative w-full flex justify-center border-b border-b-primary h-16">
                 <div className="max-w-7xl flex justify-between items-center p-3 px-5 text-sm">
                   <Link href="/" passHref>
@@ -50,7 +50,7 @@ export default function RootLayout({
                   </div>
                 </div>
               </nav>
-              <div className="flex flex-col gap-20 max-w-7xl w-full ">
+              <div className="flex-1 flex flex-col gap-20 max-w-7xl w-full bg-muted/30">
                 {children}
               </div>
               <footer className="max-w-7xl w-full p-6 flex flex-col gap-6">
@@ -62,7 +62,7 @@ export default function RootLayout({
                     <Link href="#">About us</Link>
                   </div>
                 </div>
-                <div className="bg-primary w-full h-[1px]"/>
+                <div className="bg-primary w-full h-[1px]" />
                 <div className="w-full flex items-center justify-center">
                   <p className="text-sm text-center">
                     © 2025 Pho Restaurants. All rights reserved.

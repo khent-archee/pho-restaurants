@@ -6,6 +6,7 @@ import Link from "next/link";
 import { Card, CardTitle } from "@/components/ui/card";
 import { Metadata } from "next";
 import { convertSpaceToHyphen } from "@/lib/utils";
+import FAQContent from "@/components/FAQ";
 
 async function fetchCities(state: string): Promise<string[] | null> {
   const supabase = await createClient();
@@ -50,7 +51,7 @@ export default async function StatesPage({
   }
 
   return (
-    <main className="min-h-screen bg-background flex flex-col gap-10 p-5 mt-10">
+    <main className="flex flex-col gap-10 p-5 mt-10">
       <h1 className="text-2xl font-medium">Pho Restaurants by City</h1>
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 ">
         {citiesData.map((city, key) => (
