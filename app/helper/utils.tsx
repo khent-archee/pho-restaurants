@@ -52,31 +52,26 @@ export const dining = [
   "Dining options",
   "Offerings",
 ];
-export const accessibility = [
-  "Accessibility",
-  "Amenities",
-  "Parking",
-  "Crowd",
-];
+export const accessibility = ["Accessibility", "Amenities", "Parking", "Crowd"];
 export const others = [...features, ...dining, ...accessibility];
 
 export const getCategoryIcon = (category: string) => {
   const icons: { [key: string]: React.ReactNode } = {
-    Atmosphere: <Users className="h-4 w-4 text-orange-500" />,
-    Parking: <Car className="h-4 w-4 text-orange-500" />,
-    Offerings: <Coffee className="h-4 w-4 text-orange-500" />,
-    Crowd: <Users className="h-4 w-4 text-orange-500" />,
-    Children: <Baby className="h-4 w-4 text-orange-500" />,
-    Payments: <CreditCard className="h-4 w-4 text-orange-500" />,
-    Amenities: <Toilet className="h-4 w-4 text-orange-500" />,
-    Highlights: <Star className="h-4 w-4 text-orange-500" />,
-    Pets: <PawPrint className="h-4 w-4 text-orange-500" />,
-    Planning: <Calendar className="h-4 w-4 text-orange-500" />,
-    Accessibility: <Accessibility className="h-4 w-4 text-orange-500" />,
-    "From the business": <Handshake className="h-4 w-4 text-orange-500" />,
-    "Dining options": <UtensilsCrossed className="h-4 w-4 text-orange-500" />,
-    "Service options": <Utensils className="h-4 w-4 text-orange-500" />,
-    "Popular for": <Star className="h-4 w-4 text-orange-500" />,
+    Atmosphere: <Users className="h-4 w-4 text-primary" />,
+    Parking: <Car className="h-4 w-4 text-primary" />,
+    Offerings: <Coffee className="h-4 w-4 text-primary" />,
+    Crowd: <Users className="h-4 w-4 text-primary" />,
+    Children: <Baby className="h-4 w-4 text-primary" />,
+    Payments: <CreditCard className="h-4 w-4 text-primary" />,
+    Amenities: <Toilet className="h-4 w-4 text-primary" />,
+    Highlights: <Star className="h-4 w-4 text-primary" />,
+    Pets: <PawPrint className="h-4 w-4 text-primary" />,
+    Planning: <Calendar className="h-4 w-4 text-primary" />,
+    Accessibility: <Accessibility className="h-4 w-4 text-primary" />,
+    "From the business": <Handshake className="h-4 w-4 text-primary" />,
+    "Dining options": <UtensilsCrossed className="h-4 w-4 text-primary" />,
+    "Service options": <Utensils className="h-4 w-4 text-primary" />,
+    "Popular for": <Star className="h-4 w-4 text-primary" />,
   };
-  return icons[category] || <Ellipsis className="h-4 w-4 text-orange-500" />;
+  return icons[category] || <Ellipsis className="h-4 w-4 text-primary" />;
 };

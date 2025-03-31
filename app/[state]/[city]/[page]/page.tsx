@@ -1,41 +1,40 @@
-import React from "react";
-
 import { notFound } from "next/navigation";
 import { createClient } from "@/utils/supabase/client";
-import { Card, CardContent, CardTitle } from "@/components/ui/card";
 import { Restaurant } from "@/app/types/reastaurant";
-import { capitalizeFirstLetter, convertHyphenToSpace } from "@/lib/utils";
+import { convertHyphenToSpace, convertSpaceToHyphen } from "@/lib/utils"; // utility to convert hyphen back to space
 import { Metadata } from "next";
+import Link from "next/link";
 import { Button } from "@/components/ui/button";
-import { MapPin } from "lucide-react";
-import { dining, getTrueFeatures } from "@/app/helper/utils";
+import { Card, CardContent, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
+import { dining, getTrueFeatures } from "@/app/helper/utils";
+import { MapPin } from "lucide-react";
 
 async function fetchRestaurants(
   state: string,
   city: string
 ): Promise<Restaurant[] | null> {
   const supabase = await createClient();
-  const { data: retaurants, error } = await supabase
+  const { data: restaurants, error } = await supabase
     .from("restaurants")
     .select()
-    .ilike("us_state", `${state}`)
-    .ilike("city", `${city}`);
+    .ilike("us_state", state)
+    .ilike("city", city);
 
-  if (error || !retaurants) {
+  if (error || !restaurants) {
     console.error(error);
     return null;
   }
 
-  return retaurants;
+  return restaurants;
 }
 
 export async function generateMetadata({
   params,
 }: {
-  params: Promise<{ state: string; city: string }>;
+  params: Promise<{ state: string; city: string; page: string }>;
 }): Promise<Metadata> {
-  const { state, city } = await params;
+  const { state, city, page } = await params;
 
   return {
     title: `Pho Restaurants in ${convertHyphenToSpace(city)}, ${state}`,
@@ -46,27 +45,32 @@ export async function generateMetadata({
 export default async function StatesPage({
   params,
 }: {
-  params: Promise<{ state: string; city: string }>;
+  params: Promise<{ state: string; city: string; page: string }>;
 }) {
-  const { state, city } = await params;
-  const dataList = await fetchRestaurants(state, convertHyphenToSpace(city));
+  const { state, city, page } = await params;
+  const decodedCity = convertHyphenToSpace(city);
+
+  const dataList = await fetchRestaurants(state, decodedCity);
 
   if (!dataList) {
     return notFound();
   }
 
+  const chunkSize = 10;
+  const start = (parseInt(page) - 1) * chunkSize;
+  const end = start + chunkSize;
+
+  const pageData = dataList.slice(0, end);
+
   return (
     <main className="min-h-screen bg-background flex flex-col gap-6 p-5 mt-4">
       <h1 className="text-2xl font-medium">
         Pho restaurants in{" "}
-        <span className="text-primary">
-          {capitalizeFirstLetter(convertHyphenToSpace(city))}
-          {","}
-        </span>{" "}
-        <span className="text-primary">{capitalizeFirstLetter(state)}</span>
+        <span className="text-primary">{decodeURIComponent(decodedCity)}</span>,{" "}
+        <span className="text-primary">{state}</span>
       </h1>
-      <div className="flex flex-col  gap-6">
-        {dataList.map((data, key) => (
+      <div className="flex flex-col gap-6">
+        {pageData.map((data, key) => (
           <div key={key}>
             <Card className="p-4 hover:shadow-lg transition-shadow h-full border-2 overflow-hidden">
               <div className="w-[calc(100% + 80px)] h-2 bg-primary -mt-4 -mx-10" />
@@ -121,7 +125,7 @@ export default async function StatesPage({
                 </Button>
                 <Button variant="outline" size="sm" asChild>
                   <a
-                    href={`/${state}/${city}/${data.id}`}
+                    href={`/${state}/${city}/${page}/${data.id}`}
                     className="flex gap-2"
                   >
                     Check more details
@@ -132,6 +136,16 @@ export default async function StatesPage({
           </div>
         ))}
       </div>
+
+      {pageData.length >= end && (
+        <div className="mt-2 flex flex-1">
+          <Button variant="link" asChild className="w-full">
+            <Link href={`/${state}/${city}/${parseInt(page) + 1}`} passHref>
+              View More Result
+            </Link>
+          </Button>
+        </div>
+      )}
     </main>
   );
 }
@@ -154,8 +168,26 @@ export async function generateStaticParams() {
     return { state, city };
   });
 
-  return uniqueCityState.map((data) => ({
-    state: data.state,
-    city: data.city,
-  }));
+  // Generate pages for each city-state pair with pagination (chunks of 10 items)
+  const staticParams = [];
+
+  for (const { state, city } of uniqueCityState) {
+    const restaurants = await fetchRestaurants(state, city);
+
+    if (restaurants && restaurants.length > 0) {
+      const chunkSize = 10;
+      const chunks = Math.ceil(restaurants.length / chunkSize);
+
+      // Generate a page for each chunk of restaurants (pagination)
+      for (let page = 1; page <= chunks; page++) {
+        staticParams.push({
+          state,
+          city: convertSpaceToHyphen(city), // Store city name in URL-safe format
+          page: page.toString(), // Adding page parameter
+        });
+      }
+    }
+  }
+
+  return staticParams;
 }

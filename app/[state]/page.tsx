@@ -4,6 +4,8 @@ import { notFound } from "next/navigation";
 import { createClient } from "@/utils/supabase/client";
 import Link from "next/link";
 import { Card, CardTitle } from "@/components/ui/card";
+import { Metadata } from "next";
+import { convertSpaceToHyphen } from "@/lib/utils";
 
 async function fetchCities(state: string): Promise<string[] | null> {
   const supabase = await createClient();
@@ -22,6 +24,19 @@ async function fetchCities(state: string): Promise<string[] | null> {
   return uniqueCities;
 }
 
+export async function generateMetadata({
+  params,
+}: {
+  params: Promise<{ state: string }>;
+}): Promise<Metadata> {
+  const { state } = await params; // Access the state from params
+
+  return {
+    title: `Pho Restaurants in ${state}`,
+    description: `Find the Best Pho Restaurant in ${state}`,
+  };
+}
+
 export default async function StatesPage({
   params,
 }: {
@@ -35,14 +50,16 @@ export default async function StatesPage({
   }
 
   return (
-    <main className="min-h-screen bg-background flex flex-col gap-4 p-5 mt-10">
-      <h1>Cities</h1>
+    <main className="min-h-screen bg-background flex flex-col gap-10 p-5 mt-10">
+      <h1 className="text-2xl font-medium">Pho Restaurants by City</h1>
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 ">
         {citiesData.map((city, key) => (
           <div key={key}>
-            <Link href={`/${state}/${city.toLocaleLowerCase()}`}>
+            <Link
+              href={`/${state}/${convertSpaceToHyphen(city.toLocaleLowerCase())}/1`}
+            >
               <Card className="p-4 hover:shadow-lg transition-shadow overflow-hidden flex flex-col gap-4">
-                <div className="w-[calc(100% + 80px)] h-2 bg-orange-500 -mt-4 -mx-10" />
+                <div className="w-[calc(100% + 80px)] h-2 bg-primary -mt-4 -mx-10" />
                 <CardTitle>{city}</CardTitle>
               </Card>
             </Link>

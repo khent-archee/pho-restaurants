@@ -18,6 +18,7 @@ import {
 import { notFound } from "next/navigation";
 import { createClient } from "@/utils/supabase/client";
 import { Button } from "@/components/ui/button";
+import { Metadata } from "next";
 
 const daysOrder = [
   "Monday",
@@ -45,6 +46,20 @@ async function fetchRestaurants(id: string): Promise<Restaurant | null> {
   return restaurantData;
 }
 
+export async function generateMetadata({
+  params,
+}: {
+  params: Promise<{ id: string }>;
+}): Promise<Metadata> {
+  const { id } = await params;
+  const restaurantData = await fetchRestaurants(id);
+
+  return {
+    title: `${restaurantData?.name} - pho-restaurant `,
+    description: `${restaurantData?.description}`,
+  };
+}
+
 export default async function RestaurantPage({
   params,
 }: {
@@ -64,7 +79,7 @@ export default async function RestaurantPage({
         <section className="relative h-96 overflow-hidden mb-8">
           <div
             className="absolute inset-0 bg-cover bg-center parallax-image"
-            style={{ backgroundImage: `url(${restaurantData.photo})` }}
+            style={{ backgroundImage: `url(/images/pho.jpg)` }}
           >
             <div className="absolute inset-0 bg-black opacity-30" />
           </div>
@@ -73,15 +88,12 @@ export default async function RestaurantPage({
             <h1 className="text-2xl md:text-5xl font-bold text-white">
               {restaurantData.name}
             </h1>
-            <p className="text-sm text-white mb-2">
-              {restaurantData.type}{" "}
-              {restaurantData.subtypes && `( ${restaurantData.subtypes} )`}
-            </p>
+            <p className="text-sm text-white mb-2">{restaurantData.type} </p>
             <div className="flex flex-row gap-2">
               {restaurantData.site && (
                 <Button
                   asChild
-                  className="bg-orange-500 hover:bg-orange-800 text-sm md:text-lg"
+                  className="bg-primary hover:bg-primary-dark text-sm md:text-lg"
                   size="lg"
                 >
                   <a target="_blank" href={restaurantData.site}>
@@ -92,12 +104,11 @@ export default async function RestaurantPage({
               {restaurantData.location_link && (
                 <Button
                   asChild
-                  variant="outline"
-                  className="border-orange-800 text-orange-800 bg-transparent hover:bg-orange-500 text-sm md:text-lg"
+                  className="border-primary-dark text-primary bg-white hover:bg-white/80 text-sm md:text-lg"
                   size="lg"
                 >
                   <a target="_blank" href={restaurantData.location_link}>
-                    View on Map
+                    Get Direction
                   </a>
                 </Button>
               )}
@@ -106,10 +117,10 @@ export default async function RestaurantPage({
         </section>
 
         <section className="flex-1 flex flex-col justify-center items-center mb-10">
-          <section className="-mt-[80px] h-28 w-full md:w-5/6 z-20 bg-orange-400 flex justify-around items-center rounded-lg">
+          <section className="-mt-[80px] h-28 w-full md:w-5/6 z-20 bg-primary-light flex justify-around items-center rounded-lg">
             <div className="flex flex-col justify-center items-center space-x-2">
               <div className="rounded-full bg-white dark:bg-black p-3 md:p-5">
-                <DollarSign className="h-4 w-4 text-orange-500" />
+                <DollarSign className="h-4 w-4 text-primary" />
               </div>
               <p className="text-white dark:text-black">
                 <span className="text-sm">Price Range: &nbsp;</span>
@@ -118,7 +129,7 @@ export default async function RestaurantPage({
             </div>
             <div className="flex flex-col gap-2 justify-center items-center space-x-2">
               <div className="rounded-full bg-white dark:bg-black  p-3 md:p-5">
-                <Phone className="h-4 w-4 text-orange-500" />
+                <Phone className="h-4 w-4 text-primary" />
               </div>
               <a
                 href={`tel:${restaurantData.phone}`}
@@ -133,8 +144,8 @@ export default async function RestaurantPage({
         {/* Quick Info Section */}
         <section className="flex flex-col md:flex-row gap-6">
           <div className="flex-1 flex flex-col p-5 gap-4">
-            <h3 className="font-merri font-bold text-4xl text-orange-500">
-              About us
+            <h3 className="font-merri font-bold text-4xl text-primary">
+              About this Restaurant
             </h3>
             <p className="text-sm md:text-md">
               {restaurantData.description !== null
@@ -149,7 +160,7 @@ export default async function RestaurantPage({
           </div>
 
           <Card className="md:basis-1/3 overflow-hidden mx-2 md:mx-0">
-            <div className="w-full h-2 bg-orange-500 " />
+            <div className="w-full h-2 bg-primary " />
             <CardHeader className="flex flex-row items-center space-x-2">
               <Clock className="h-5 w-5 text-primary" />
               <CardTitle>Hours Open</CardTitle>
@@ -180,7 +191,7 @@ export default async function RestaurantPage({
               {mainCategories.map((category) => (
                 <TabsTrigger
                   key={category}
-                  className="data-[state=active]:!border-b-4 data-[state=active]:!border-orange-500 data-[state=active]:!text-orange-500"
+                  className="data-[state=active]:!border-b-4 data-[state=active]:!border-primary data-[state=active]:!text-primary"
                   value={category.toLowerCase()}
                 >
                   {category}

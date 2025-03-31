@@ -7,15 +7,9 @@ import Logo from "@/components/HeaderLogo";
 import { Button } from "@/components/ui/button";
 import { Search } from "lucide-react";
 
-const defaultUrl = process.env.VERCEL_URL
+export const defaultUrl = process.env.VERCEL_URL
   ? `https://${process.env.VERCEL_URL}`
   : "http://localhost:3000";
-
-export const metadata = {
-  metadataBase: new URL(defaultUrl),
-  title: "Pho Restaurants",
-  description: "Find your next meal",
-};
 
 const merriSans = Merriweather_Sans({
   display: "swap",
@@ -46,18 +40,12 @@ export default function RootLayout({
         >
           <main className="min-h-screen flex flex-col items-center">
             <div className="flex-1 w-full flex flex-col items-center">
-              <nav className="w-full flex justify-center border-b border-b-orange-400 h-16">
-                <div className="w-full max-w-7xl flex justify-between items-center p-3 px-5 text-sm">
+              <nav className="relative w-full flex justify-center border-b border-b-primary h-16">
+                <div className="max-w-7xl flex justify-between items-center p-3 px-5 text-sm">
                   <Link href="/" passHref>
                     <Logo />
                   </Link>
-                  <div className="flex flex-row gap-4">
-                    {/* <Button asChild variant="ghost">
-                      <Link href="/search" passHref>
-                        <Search className="w-10 h-5" />
-                        Search
-                      </Link>
-                    </Button> */}
+                  <div className=" absolute right-6">
                     <ThemeSwitcher />
                   </div>
                 </div>
@@ -65,6 +53,22 @@ export default function RootLayout({
               <div className="flex flex-col gap-20 max-w-7xl w-full ">
                 {children}
               </div>
+              <footer className="max-w-7xl w-full p-6 flex flex-col gap-6">
+                <div className="flex justify-between items-center">
+                  <Logo />
+                  <div className="flex flex-row gap-4">
+                    <Link href="#">Privacy Policy</Link>
+                    <Link href="#">Contact</Link>
+                    <Link href="#">About us</Link>
+                  </div>
+                </div>
+                <div className="bg-primary w-full h-[1px]"/>
+                <div className="w-full flex items-center justify-center">
+                  <p className="text-sm text-center">
+                    © 2025 Pho Restaurants. All rights reserved.
+                  </p>
+                </div>
+              </footer>
             </div>
           </main>
         </ThemeProvider>
