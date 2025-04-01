@@ -8,7 +8,6 @@ import { Restaurant } from "@/app/types/reastaurant";
 import {
   accessibility,
   dining,
-  features,
   getCategoryIcon,
   getRemainingFeatures,
   getTrueFeatures,
@@ -201,7 +200,7 @@ export default async function RestaurantPage({
           <h2 className="text-xl font-semibold ">Detailed Information</h2>
           <Card className="p-5">
             <Tabs defaultValue="features" className="w-full">
-              <TabsList className="grid w-full grid-cols-4 !bg-transparent">
+              <TabsList className="grid w-full grid-cols-3 !bg-transparent">
                 {mainCategories.map((category) => (
                   <TabsTrigger
                     key={category}
@@ -212,40 +211,6 @@ export default async function RestaurantPage({
                   </TabsTrigger>
                 ))}
               </TabsList>
-              <TabsContent value="features">
-                <Card className="border-none">
-                  <CardContent className="pt-6">
-                    <div className="space-y-6">
-                      {features.map((category) => (
-                        <div key={category}>
-                          {getTrueFeatures(restaurantData.about[category])
-                            .length > 0 && (
-                            <>
-                              <h3 className="font-semibold flex items-center gap-2 mb-3">
-                                {getCategoryIcon(category)} {category}
-                              </h3>
-
-                              <div className="flex flex-wrap gap-2">
-                                {getTrueFeatures(
-                                  restaurantData.about[category]
-                                ).map((item) => (
-                                  <Badge
-                                    key={item}
-                                    variant="secondary"
-                                    className="p-2 px-4"
-                                  >
-                                    {item}
-                                  </Badge>
-                                ))}
-                              </div>
-                            </>
-                          )}
-                        </div>
-                      ))}
-                    </div>
-                  </CardContent>
-                </Card>
-              </TabsContent>
 
               <TabsContent value="dining">
                 <Card className="border-none">

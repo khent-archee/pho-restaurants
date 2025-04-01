@@ -38,12 +38,22 @@ export const getRemainingFeatures = (
     .map((item) => item);
 };
 
-export const mainCategories = ["Features", "Dining", "Accessibility", "Others"];
-export const features = ["Payments", "Pets", "Planning"];
+export const mainCategories = ["Dining", "Accessibility", "Others"];
 export const dining = ["Service options", "Dining options", "Offerings"];
-export const excluded = ["Highlights", "Popular for", "Crowd", "Atmosphere"];
-export const accessibility = ["Accessibility", "Amenities", "Parking"];
-export const others = [...features, ...dining, ...accessibility, ...excluded];
+export const accessibility = [
+  "Accessibility",
+  "Parking",
+  "Payments",
+  "Planning",
+];
+export const excluded = [
+  "Highlights",
+  "Popular for",
+  "Crowd",
+  "Atmosphere",
+  "others",
+];
+export const others = [...dining, ...accessibility, ...excluded];
 
 export const getCategoryIcon = (category: string) => {
   const icons: { [key: string]: React.ReactNode } = {
