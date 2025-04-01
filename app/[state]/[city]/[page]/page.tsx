@@ -1,7 +1,11 @@
 import { notFound } from "next/navigation";
 import { createClient } from "@/utils/supabase/client";
 import { Restaurant } from "@/app/types/reastaurant";
-import { convertHyphenToSpace, convertSpaceToHyphen } from "@/lib/utils"; // utility to convert hyphen back to space
+import {
+  capitalizeFirstLetter,
+  convertHyphenToSpace,
+  convertSpaceToHyphen,
+} from "@/lib/utils"; // utility to convert hyphen back to space
 import { Metadata } from "next";
 import Link from "next/link";
 import { Button } from "@/components/ui/button";
@@ -9,6 +13,7 @@ import { Card, CardContent, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { dining, getTrueFeatures } from "@/app/helper/utils";
 import { MapPin } from "lucide-react";
+import { defaultUrl } from "@/app/layout";
 
 async function fetchRestaurants(
   state: string,
@@ -37,8 +42,8 @@ export async function generateMetadata({
   const { state, city, page } = await params;
 
   return {
-    title: `Pho Restaurants in ${convertHyphenToSpace(city)}, ${state}`,
-    description: `Find the Best Pho Restaurant in ${convertHyphenToSpace(city)}, ${state}`,
+    title: `Best Vietnamese Restaurants in ${convertHyphenToSpace(city)}, ${state} page ${page} | ${defaultUrl}`,
+    description: `Find the Best Vietnamese Restaurant in ${convertHyphenToSpace(city)}, ${state}`,
   };
 }
 
@@ -63,11 +68,14 @@ export default async function StatesPage({
   const pageData = dataList.slice(0, end);
 
   return (
-    <main className="min-h-screen flex flex-col gap-6 p-5 mt-4">
-      <h1 className="text-2xl font-medium">
-        Pho restaurants in{" "}
-        <span className="text-primary">{decodeURIComponent(decodedCity)}</span>,{" "}
-        <span className="text-primary">{state}</span>
+    <main className="min-h-screen flex flex-col gap-6 p-5 mt-4 max-w-7xl w-full">
+      <h1 className="text-3xl font-bold">
+        Best Vietnamese Restaurants in{" "}
+        <span className="text-primary">
+          {capitalizeFirstLetter(convertHyphenToSpace(city))}
+          {","}
+        </span>{" "}
+        <span className="text-primary">{capitalizeFirstLetter(state)}</span>
       </h1>
       <div className="flex flex-col gap-6">
         {pageData.map((data, key) => (
@@ -141,7 +149,7 @@ export default async function StatesPage({
         <div className="mt-2 flex flex-1">
           <Button variant="link" asChild className="w-full">
             <Link href={`/${state}/${city}/${parseInt(page) + 1}`} passHref>
-              View More Result
+              View more businesses
             </Link>
           </Button>
         </div>

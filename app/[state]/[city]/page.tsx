@@ -10,6 +10,7 @@ import { Button } from "@/components/ui/button";
 import { MapPin } from "lucide-react";
 import { dining, getTrueFeatures } from "@/app/helper/utils";
 import { Badge } from "@/components/ui/badge";
+import { defaultUrl } from "@/app/layout";
 
 async function fetchRestaurants(
   state: string,
@@ -38,8 +39,8 @@ export async function generateMetadata({
   const { state, city } = await params;
 
   return {
-    title: `Pho Restaurants in ${convertHyphenToSpace(city)}, ${state}`,
-    description: `Find the Best Pho Restaurant in ${convertHyphenToSpace(city)}, ${state}`,
+    title: `Best Vietnamese Restaurants in ${convertHyphenToSpace(city)}, ${state} | ${defaultUrl}`,
+    description: `Find the Best Vietnamese Restaurant in ${convertHyphenToSpace(city)}, ${state}`,
   };
 }
 
@@ -56,9 +57,9 @@ export default async function StatesPage({
   }
 
   return (
-    <main className="min-h-screen flex flex-col gap-6 p-5 mt-4">
-      <h1 className="text-2xl font-medium">
-        Pho restaurants in{" "}
+    <main className="min-h-screen flex flex-col gap-6 p-5 mt-4 max-w-7xl w-full">
+      <h1 className="text-3xl font-bold">
+        Best Vietnamese Restaurants in
         <span className="text-primary">
           {capitalizeFirstLetter(convertHyphenToSpace(city))}
           {","}

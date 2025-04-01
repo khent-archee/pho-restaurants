@@ -4,8 +4,6 @@ import { ThemeProvider } from "next-themes";
 import "./globals.css";
 import Link from "next/link";
 import Logo from "@/components/HeaderLogo";
-import { Button } from "@/components/ui/button";
-import { Search } from "lucide-react";
 
 export const defaultUrl = process.env.VERCEL_URL
   ? `https://${process.env.VERCEL_URL}`
@@ -50,7 +48,7 @@ export default function RootLayout({
                   </div>
                 </div>
               </nav>
-              <div className="flex-1 flex flex-col gap-20 max-w-7xl w-full">
+              <div className="flex-1 flex justify-center gap-20 w-full">
                 {children}
               </div>
               <footer className="w-full flex justify-center p-6 bg-white dark:bg-black">

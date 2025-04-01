@@ -7,6 +7,7 @@ import { Card, CardTitle } from "@/components/ui/card";
 import { Metadata } from "next";
 import { convertSpaceToHyphen } from "@/lib/utils";
 import FAQContent from "@/components/FAQ";
+import { defaultUrl } from "../layout";
 
 async function fetchCities(state: string): Promise<string[] | null> {
   const supabase = await createClient();
@@ -33,8 +34,8 @@ export async function generateMetadata({
   const { state } = await params; // Access the state from params
 
   return {
-    title: `Pho Restaurants in ${state}`,
-    description: `Find the Best Pho Restaurant in ${state}`,
+    title: `Best Vietnamese Restaurants in ${state} | ${defaultUrl}`,
+    description: `Find the Best Vietnamese Restaurant in ${state}`,
   };
 }
 
@@ -51,8 +52,8 @@ export default async function StatesPage({
   }
 
   return (
-    <main className="flex flex-col gap-10 p-5 mt-10">
-      <h1 className="text-2xl font-medium">Pho Restaurants by City</h1>
+    <main className="flex flex-col gap-10 p-5 mt-10 max-w-7xl w-full">
+      <h1 className="text-3xl font-bold">{`Best Vietnamese Restaurants in ${state}`}</h1>
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 ">
         {citiesData.map((city, key) => (
           <div key={key}>

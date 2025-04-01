@@ -19,6 +19,7 @@ import { notFound } from "next/navigation";
 import { createClient } from "@/utils/supabase/client";
 import { Button } from "@/components/ui/button";
 import { Metadata } from "next";
+import { defaultUrl } from "@/app/layout";
 
 const daysOrder = [
   "Monday",
@@ -55,7 +56,7 @@ export async function generateMetadata({
   const restaurantData = await fetchRestaurants(id);
 
   return {
-    title: `${restaurantData?.name} - pho-restaurant `,
+    title: `${restaurantData?.name} | ${defaultUrl}`,
     description: `${restaurantData?.description}`,
   };
 }
@@ -73,7 +74,7 @@ export default async function RestaurantPage({
   }
 
   return (
-    <main className="min-h-screen flex flex-col justify-center items-center gap-4 ">
+    <main className="min-h-screen flex flex-col justify-center items-center gap-4 max-w-7xl w-full">
       <article className="mx-auto w-full flex flex-col gap-4">
         {/* Hero Section */}
         <section className="relative h-96 overflow-hidden mb-8">
@@ -85,7 +86,7 @@ export default async function RestaurantPage({
           </div>
 
           <div className="absolute z-20 inset-0 bg-gradient-to-t from-black/70 to-transparent flex flex-col gap-4 justify-center items-center p-6 text-center">
-            <h1 className="text-2xl md:text-5xl font-bold text-white">
+            <h1 className="text-3xl md:text-5xl font-bold text-white">
               {restaurantData.name}
             </h1>
             <p className="text-sm text-white mb-2">{restaurantData.type} </p>
@@ -351,6 +352,6 @@ export async function generateStaticParams() {
     id: restaurant.id.toString(),
     state: restaurant.us_state.toString(),
     city: restaurant.city.toString(),
-    page: '1',
+    page: "1",
   }));
 }
