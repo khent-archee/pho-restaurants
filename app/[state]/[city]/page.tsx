@@ -73,7 +73,7 @@ export default async function StatesPage({
               <div className="w-[calc(100% + 80px)] h-2 bg-primary -mt-4 -mx-10" />
               <CardContent className="flex flex-col gap-4 py-6">
                 <div className="flex flex-col gap-2">
-                  <CardTitle>{data.name}</CardTitle>
+                  <h2 className="text-3xl font-medium">{data.name}</h2>
                   <p className="text-xs text-muted-foreground">{data.type}</p>
                 </div>
                 <div className="w-full h-[2px] bg-primary" />

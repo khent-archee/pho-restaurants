@@ -56,7 +56,7 @@ export default function RootLayout({
                   <div className="flex justify-between items-center">
                     <Logo />
                     <div className="flex flex-row gap-4">
-                      <Link href="#">Privacy Policy</Link>
+                      <Link href="/privacy-policy">Privacy Policy</Link>
                       <Link href="#">Contact</Link>
                       <Link href="#">About us</Link>
                     </div>

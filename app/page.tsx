@@ -71,7 +71,7 @@ export default async function RestaurantPage() {
               <Link href={`/${state.toLowerCase()}`}>
                 <Card className="p-4 hover:shadow-lg transition-shadow overflow-hidden flex flex-col gap-4">
                   <div className="w-[calc(100% + 80px)] h-2 bg-primary -mt-4 -mx-10" />
-                  <CardTitle>{state}</CardTitle>
+                  <h3 className="text-3xl font-medium">{state}</h3>
                 </Card>
               </Link>
             </div>

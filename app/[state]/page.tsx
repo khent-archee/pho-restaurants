@@ -62,7 +62,7 @@ export default async function StatesPage({
             >
               <Card className="p-4 hover:shadow-lg transition-shadow overflow-hidden flex flex-col gap-4">
                 <div className="w-[calc(100% + 80px)] h-2 bg-primary -mt-4 -mx-10" />
-                <CardTitle>{city}</CardTitle>
+                <h2 className="text-3xl font-medium">{city}</h2>
               </Card>
             </Link>
           </div>
