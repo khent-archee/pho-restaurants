@@ -19,7 +19,10 @@ import { notFound } from "next/navigation";
 import { createClient } from "@/utils/supabase/client";
 import { Button } from "@/components/ui/button";
 import { Metadata } from "next";
-import { defaultUrl } from "@/app/layout";
+
+const defaultUrl = process.env.VERCEL_URL
+  ? `${process.env.VERCEL_URL}`
+  : "http://localhost:3000";
 
 const daysOrder = [
   "Monday",
@@ -74,41 +77,40 @@ export default async function RestaurantPage({
   }
 
   return (
-    <main className="min-h-screen flex flex-col justify-center items-center gap-4 max-w-7xl w-full">
-      <article className="mx-auto w-full flex flex-col gap-4">
+    <main className="min-h-screen flex flex-col justify-center items-center gap-4 w-full">
+      <article className="w-full flex flex-col justify-center items-center gap-4">
         {/* Hero Section */}
-        <section className="relative h-96 overflow-hidden mb-8">
+        <section className="relative h-96 w-full overflow-hidden mb-8">
           <div
             className="absolute inset-0 bg-cover bg-center parallax-image"
-            style={{ backgroundImage: `url(/images/pho.jpg)` }}
+            style={{ backgroundImage: `url(/images/hero-image.jpg)` }}
           >
             <div className="absolute inset-0 bg-black opacity-30" />
           </div>
 
           <div className="absolute z-20 inset-0 bg-gradient-to-t from-black/70 to-transparent flex flex-col gap-4 justify-center items-center p-6 text-center">
-            <h1 className="text-3xl md:text-5xl font-bold text-white">
-              {restaurantData.name}
-            </h1>
-            <p className="text-sm text-white mb-2">{restaurantData.type} </p>
+            <div className="flex flex-col gap-2">
+              <h1 className="text-4xl md:text-6xl font-bold text-white">
+                {restaurantData.name}
+              </h1>
+              <h2 className="text-md text-white mb-2">
+                {restaurantData.type} in {restaurantData.city},{" "}
+                {restaurantData.us_state}{" "}
+              </h2>
+            </div>
             <div className="flex flex-row gap-2">
-              {restaurantData.site && (
-                <Button
-                  asChild
-                  className="bg-primary hover:bg-primary-dark text-sm md:text-lg"
-                  size="lg"
-                >
-                  <a target="_blank" href={restaurantData.site}>
-                    Visit Website
-                  </a>
-                </Button>
-              )}
               {restaurantData.location_link && (
                 <Button
                   asChild
                   className="border-primary-dark text-primary bg-white hover:bg-white/80 text-sm md:text-lg"
                   size="lg"
                 >
-                  <a target="_blank" href={restaurantData.location_link}>
+                  <a
+                    target="_blank"
+                    href={restaurantData.location_link}
+                    className="flex gap-2"
+                  >
+                    <MapPin />
                     Get Direction
                   </a>
                 </Button>
@@ -117,8 +119,8 @@ export default async function RestaurantPage({
           </div>
         </section>
 
-        <section className="flex-1 flex flex-col justify-center items-center mb-10">
-          <section className="-mt-[80px] h-28 w-full md:w-5/6 z-20 bg-primary-light flex justify-around items-center rounded-lg">
+        <section className="flex flex-col justify-center items-center mb-10 max-w-7xl w-full">
+          <section className="-mt-[110px] h-28 w-full md:w-5/6 z-20 bg-primary-light flex justify-around items-center rounded-lg">
             <div className="flex flex-col justify-center items-center space-x-2">
               <div className="rounded-full bg-white dark:bg-black p-3 md:p-5">
                 <DollarSign className="h-4 w-4 text-primary" />
@@ -143,9 +145,9 @@ export default async function RestaurantPage({
         </section>
 
         {/* Quick Info Section */}
-        <section className="flex flex-col md:flex-row gap-6">
+        <section className="flex flex-col md:flex-row gap-6 max-w-7xl w-full">
           <div className="flex-1 flex flex-col p-5 gap-4">
-            <h3 className="font-merri font-bold text-4xl text-primary">
+            <h3 className="font-bold text-2xl md:text-4xl text-primary">
               About this Restaurant
             </h3>
             <p className="text-sm md:text-md">
@@ -185,152 +187,154 @@ export default async function RestaurantPage({
         </section>
 
         {/* Detailed Information */}
-        <section className="flex flex-col gap-4 mb-8 px-4">
+        <section className="flex flex-col gap-4 mb-8 max-w-7xl w-full px-2">
           <h2 className="text-xl font-semibold ">Detailed Information</h2>
-          <Tabs defaultValue="features" className="w-full">
-            <TabsList className="grid w-full grid-cols-4 !bg-transparent">
-              {mainCategories.map((category) => (
-                <TabsTrigger
-                  key={category}
-                  className="data-[state=active]:!border-b-4 data-[state=active]:!border-primary data-[state=active]:!text-primary"
-                  value={category.toLowerCase()}
-                >
-                  {category}
-                </TabsTrigger>
-              ))}
-            </TabsList>
-            <TabsContent value="features">
-              <Card className="border-none">
-                <CardContent className="pt-6">
-                  <div className="space-y-6">
-                    {features.map((category) => (
-                      <div key={category}>
-                        {getTrueFeatures(restaurantData.about[category])
-                          .length > 0 && (
-                          <>
-                            <h3 className="font-semibold flex items-center gap-2 mb-3">
-                              {getCategoryIcon(category)} {category}
-                            </h3>
+          <Card className="p-5">
+            <Tabs defaultValue="features" className="w-full">
+              <TabsList className="grid w-full grid-cols-4 !bg-transparent">
+                {mainCategories.map((category) => (
+                  <TabsTrigger
+                    key={category}
+                    className="data-[state=active]:!border-b-4 data-[state=active]:!border-primary data-[state=active]:!text-primary"
+                    value={category.toLowerCase()}
+                  >
+                    {category}
+                  </TabsTrigger>
+                ))}
+              </TabsList>
+              <TabsContent value="features">
+                <Card className="border-none">
+                  <CardContent className="pt-6">
+                    <div className="space-y-6">
+                      {features.map((category) => (
+                        <div key={category}>
+                          {getTrueFeatures(restaurantData.about[category])
+                            .length > 0 && (
+                            <>
+                              <h3 className="font-semibold flex items-center gap-2 mb-3">
+                                {getCategoryIcon(category)} {category}
+                              </h3>
 
-                            <div className="flex flex-wrap gap-2">
-                              {getTrueFeatures(
-                                restaurantData.about[category]
-                              ).map((item) => (
-                                <Badge
-                                  key={item}
-                                  variant="secondary"
-                                  className="p-2 px-4"
-                                >
-                                  {item}
-                                </Badge>
-                              ))}
-                            </div>
-                          </>
-                        )}
-                      </div>
-                    ))}
-                  </div>
-                </CardContent>
-              </Card>
-            </TabsContent>
-
-            <TabsContent value="dining">
-              <Card className="border-none">
-                <CardContent className="pt-6">
-                  <div className="space-y-6">
-                    {dining.map((category) => (
-                      <div key={category}>
-                        {getTrueFeatures(restaurantData.about[category])
-                          .length > 0 && (
-                          <>
-                            <h3 className="font-semibold flex items-center gap-2 mb-3">
-                              {getCategoryIcon(category)} {category}
-                            </h3>
-                            <div className="flex flex-wrap gap-2">
-                              {getTrueFeatures(
-                                restaurantData.about[category]
-                              ).map((item) => (
-                                <Badge
-                                  key={item}
-                                  variant="secondary"
-                                  className="p-2 px-4"
-                                >
-                                  {item}
-                                </Badge>
-                              ))}
-                            </div>
-                          </>
-                        )}
-                      </div>
-                    ))}
-                  </div>
-                </CardContent>
-              </Card>
-            </TabsContent>
-
-            <TabsContent value="accessibility">
-              <Card className="border-none">
-                <CardContent className="pt-6">
-                  <div className="space-y-6">
-                    {accessibility.map((category) => (
-                      <div key={category}>
-                        {getTrueFeatures(restaurantData.about[category])
-                          .length > 1 && (
-                          <>
-                            <h3 className="font-semibold flex items-center gap-2 mb-3">
-                              {getCategoryIcon(category)} {category}
-                            </h3>
-                            <div className="flex flex-wrap gap-2">
-                              {getTrueFeatures(
-                                restaurantData.about[category]
-                              ).map((item) => (
-                                <Badge
-                                  key={item}
-                                  variant="secondary"
-                                  className="p-2 px-4"
-                                >
-                                  {item}
-                                </Badge>
-                              ))}
-                            </div>
-                          </>
-                        )}
-                      </div>
-                    ))}
-                  </div>
-                </CardContent>
-              </Card>
-            </TabsContent>
-
-            <TabsContent value="others">
-              <Card className="border-none">
-                <CardContent className="pt-6">
-                  <div className="space-y-6">
-                    {getRemainingFeatures(restaurantData.about)
-                      .filter((item) => !others.includes(item[0]))
-                      .map((item) => (
-                        <div key={item[0]}>
-                          <h3 className="font-semibold flex items-center gap-2 mb-3">
-                            {getCategoryIcon(item[0])} {item[0]}
-                          </h3>
-                          <div className="flex flex-wrap gap-2">
-                            {getTrueFeatures(item[1]).map((item) => (
-                              <Badge
-                                key={item}
-                                variant="secondary"
-                                className="p-2 px-4"
-                              >
-                                {item}
-                              </Badge>
-                            ))}
-                          </div>
+                              <div className="flex flex-wrap gap-2">
+                                {getTrueFeatures(
+                                  restaurantData.about[category]
+                                ).map((item) => (
+                                  <Badge
+                                    key={item}
+                                    variant="secondary"
+                                    className="p-2 px-4"
+                                  >
+                                    {item}
+                                  </Badge>
+                                ))}
+                              </div>
+                            </>
+                          )}
                         </div>
                       ))}
-                  </div>
-                </CardContent>
-              </Card>
-            </TabsContent>
-          </Tabs>
+                    </div>
+                  </CardContent>
+                </Card>
+              </TabsContent>
+
+              <TabsContent value="dining">
+                <Card className="border-none">
+                  <CardContent className="pt-6">
+                    <div className="space-y-6">
+                      {dining.map((category) => (
+                        <div key={category}>
+                          {getTrueFeatures(restaurantData.about[category])
+                            .length > 0 && (
+                            <>
+                              <h3 className="font-semibold flex items-center gap-2 mb-3">
+                                {getCategoryIcon(category)} {category}
+                              </h3>
+                              <div className="flex flex-wrap gap-2">
+                                {getTrueFeatures(
+                                  restaurantData.about[category]
+                                ).map((item) => (
+                                  <Badge
+                                    key={item}
+                                    variant="secondary"
+                                    className="p-2 px-4"
+                                  >
+                                    {item}
+                                  </Badge>
+                                ))}
+                              </div>
+                            </>
+                          )}
+                        </div>
+                      ))}
+                    </div>
+                  </CardContent>
+                </Card>
+              </TabsContent>
+
+              <TabsContent value="accessibility">
+                <Card className="border-none">
+                  <CardContent className="pt-6">
+                    <div className="space-y-6">
+                      {accessibility.map((category) => (
+                        <div key={category}>
+                          {getTrueFeatures(restaurantData.about[category])
+                            .length > 1 && (
+                            <>
+                              <h3 className="font-semibold flex items-center gap-2 mb-3">
+                                {getCategoryIcon(category)} {category}
+                              </h3>
+                              <div className="flex flex-wrap gap-2">
+                                {getTrueFeatures(
+                                  restaurantData.about[category]
+                                ).map((item) => (
+                                  <Badge
+                                    key={item}
+                                    variant="secondary"
+                                    className="p-2 px-4"
+                                  >
+                                    {item}
+                                  </Badge>
+                                ))}
+                              </div>
+                            </>
+                          )}
+                        </div>
+                      ))}
+                    </div>
+                  </CardContent>
+                </Card>
+              </TabsContent>
+
+              <TabsContent value="others">
+                <Card className="border-none">
+                  <CardContent className="pt-6">
+                    <div className="space-y-6">
+                      {getRemainingFeatures(restaurantData.about)
+                        .filter((item) => !others.includes(item[0]))
+                        .map((item) => (
+                          <div key={item[0]}>
+                            <h3 className="font-semibold flex items-center gap-2 mb-3">
+                              {getCategoryIcon(item[0])} {item[0]}
+                            </h3>
+                            <div className="flex flex-wrap gap-2">
+                              {getTrueFeatures(item[1]).map((item) => (
+                                <Badge
+                                  key={item}
+                                  variant="secondary"
+                                  className="p-2 px-4"
+                                >
+                                  {item}
+                                </Badge>
+                              ))}
+                            </div>
+                          </div>
+                        ))}
+                    </div>
+                  </CardContent>
+                </Card>
+              </TabsContent>
+            </Tabs>
+          </Card>
         </section>
       </article>
     </main>

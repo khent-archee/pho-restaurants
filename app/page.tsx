@@ -3,17 +3,24 @@ import React from "react";
 import { notFound } from "next/navigation";
 import { createClient } from "@/utils/supabase/client";
 import Link from "next/link";
-import { Card, CardTitle } from "@/components/ui/card";
+import { Card } from "@/components/ui/card";
 import { Metadata } from "next";
 import FAQContent from "@/components/FAQ";
-import { defaultUrl } from "./layout";
 import Image from "next/image";
+import { convertSpaceToHyphen } from "@/lib/utils";
 
-async function fetchStates(): Promise<string[] | null> {
+const defaultUrl = process.env.VERCEL_URL
+  ? `${process.env.VERCEL_URL}`
+  : "http://localhost:3000";
+
+async function fetchStates(): Promise<{
+  states: string[];
+  cities: string[];
+} | null> {
   const supabase = await createClient();
   const { data: states, error } = await supabase
     .from("restaurants")
-    .select("us_state");
+    .select("us_state, city");
 
   if (error || !states) {
     console.error(error);
@@ -21,8 +28,14 @@ async function fetchStates(): Promise<string[] | null> {
   }
 
   const uniqueStates = Array.from(new Set(states.map((row) => row.us_state)));
+  const uniqueCities = Array.from(
+    new Set(states.map((row) => `${row.city}, ${row.us_state}`))
+  );
 
-  return uniqueStates;
+  return {
+    states: uniqueStates,
+    cities: uniqueCities,
+  };
 }
 
 export const metadata: Metadata = {
@@ -31,11 +44,19 @@ export const metadata: Metadata = {
 };
 
 export default async function RestaurantPage() {
-  const statesData = await fetchStates();
+  const data = await fetchStates();
 
-  if (!statesData) {
+  if (!data) {
     return notFound();
   }
+
+  const getCityState = (val: string): { city: string; state: string } => {
+    const parts = val.split(",").map((part) => part.trim());
+    return {
+      city: parts[0] || "",
+      state: parts[1] || "",
+    };
+  };
 
   return (
     <main className="flex flex-col items-center gap-10 mb-10 w-full">
@@ -54,31 +75,61 @@ export default async function RestaurantPage() {
             <h1 className="text-white text-3xl md:text-5xl font-bold mb-4">
               Best Vietnamese Restaurant Near You
             </h1>
-            <h3 className="text-white text-lg font-thin md:text-xl max-w-3xl">
+            <p className="text-white text-md sm:text-lg font-thin md:text-xl max-w-3xl">
               Discover the best Vietnamese restaurants near you, serving
               authentic dishes made with fresh ingredients and traditional
               recipes. Enjoy classic favorites like pho, banh mi, and spring
               rolls. Find your next favorite Vietnamese spot today!
-            </h3>
+            </p>
           </div>
         </div>
       </section>
-      <section className="flex flex-col gap-4 max-w-7xl w-full">
-        <h2 className="text-3xl font-bold">Vietnamese Restaurants by State</h2>
+
+      <section className="flex flex-col gap-4 max-w-7xl w-full p-4">
+        <h2 className="text-lg sm:text-xl md:text-3xl font-bold">
+          Vietnamese Restaurants in Popular Cities
+        </h2>
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 ">
-          {statesData.map((state, key) => (
+          {data.cities.map((city, key) => {
+            const { city: cityName, state } = getCityState(city);
+            return (
+              <div key={key}>
+                <Link
+                  href={`/${state.toLowerCase()}/${convertSpaceToHyphen(cityName.toLowerCase())}`}
+                >
+                  <Card className="p-4 hover:shadow-lg transition-shadow overflow-hidden flex flex-col gap-4">
+                    <div className="w-[calc(100% + 80px)] h-2 bg-primary -mt-4 -mx-10" />
+                    <h3 className="text-lg sm:text-xl md:text-3xl font-medium">
+                      {city}
+                    </h3>
+                  </Card>
+                </Link>
+              </div>
+            );
+          })}
+        </div>
+      </section>
+
+      <section className="flex flex-col gap-4 max-w-7xl w-full p-4">
+        <h2 className="text-lg sm:text-xl md:text-3xl font-bold">
+          Vietnamese Restaurants by State
+        </h2>
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 ">
+          {data.states.map((state, key) => (
             <div key={key}>
               <Link href={`/${state.toLowerCase()}`}>
                 <Card className="p-4 hover:shadow-lg transition-shadow overflow-hidden flex flex-col gap-4">
                   <div className="w-[calc(100% + 80px)] h-2 bg-primary -mt-4 -mx-10" />
-                  <h3 className="text-3xl font-medium">{state}</h3>
+                  <h3 className="text-lg sm:text-xl md:text-3xl font-medium">
+                    {state}
+                  </h3>
                 </Card>
               </Link>
             </div>
           ))}
         </div>
       </section>
-      <section className=" max-w-7xl w-full">
+      <section className=" max-w-7xl w-full p-4">
         <FAQContent />
       </section>
     </main>

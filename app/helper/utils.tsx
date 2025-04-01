@@ -39,21 +39,16 @@ export const getRemainingFeatures = (
 };
 
 export const mainCategories = ["Features", "Dining", "Accessibility", "Others"];
-export const features = [
-  "Atmosphere",
-  "Highlights",
-  "Payments",
-  "Pets",
-  "Planning",
-];
+export const features = ["Atmosphere", "Payments", "Pets", "Planning"];
 export const dining = [
   "Popular for",
   "Service options",
   "Dining options",
   "Offerings",
 ];
+export const excluded = ["Highlights"];
 export const accessibility = ["Accessibility", "Amenities", "Parking", "Crowd"];
-export const others = [...features, ...dining, ...accessibility];
+export const others = [...features, ...dining, ...accessibility, ...excluded];
 
 export const getCategoryIcon = (category: string) => {
   const icons: { [key: string]: React.ReactNode } = {
