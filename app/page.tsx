@@ -95,7 +95,7 @@ export default async function RestaurantPage() {
             return (
               <div key={key}>
                 <Link
-                  href={`/${state.toLowerCase()}/${convertSpaceToHyphen(cityName.toLowerCase())}`}
+                  href={`/${state.toLowerCase()}/${convertSpaceToHyphen(cityName.toLowerCase())}/1`}
                 >
                   <Card className="p-4 hover:shadow-lg transition-shadow overflow-hidden flex flex-col gap-4">
                     <div className="w-[calc(100% + 80px)] h-2 bg-primary -mt-4 -mx-10" />
