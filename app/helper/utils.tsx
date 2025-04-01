@@ -51,7 +51,7 @@ export const excluded = [
   "Popular for",
   "Crowd",
   "Atmosphere",
-  "others",
+  "Others",
 ];
 export const others = [...dining, ...accessibility, ...excluded];
 
