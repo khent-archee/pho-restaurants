@@ -199,7 +199,7 @@ export default async function RestaurantPage({
         <section className="flex flex-col gap-4 mb-8 max-w-7xl w-full px-2">
           <h2 className="text-xl font-semibold ">Detailed Information</h2>
           <Card className="p-5">
-            <Tabs defaultValue="features" className="w-full">
+            <Tabs defaultValue="dining" className="w-full">
               <TabsList className="grid w-full grid-cols-3 !bg-transparent">
                 {mainCategories.map((category) => (
                   <TabsTrigger
