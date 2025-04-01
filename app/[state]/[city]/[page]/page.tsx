@@ -133,7 +133,7 @@ export default async function StatesPage({
                 </Button>
                 <Button variant="outline" size="sm" asChild>
                   <a
-                    href={`/${state}/${city}/${page}/${data.id}`}
+                    href={`/${state}/${city}/1/${data.id}`}
                     className="flex gap-2"
                   >
                     Check more details
