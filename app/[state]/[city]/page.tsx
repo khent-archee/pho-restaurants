@@ -7,13 +7,9 @@ import { Restaurant } from "@/app/types/reastaurant";
 import { capitalizeFirstLetter, convertHyphenToSpace } from "@/lib/utils";
 import { Metadata } from "next";
 import { Button } from "@/components/ui/button";
-import { MapPin } from "lucide-react";
-import { dining, getTrueFeatures } from "@/app/helper/utils";
-import { Badge } from "@/components/ui/badge";
-
-const defaultUrl = process.env.VERCEL_URL
-  ? `${process.env.VERCEL_URL}`
-  : "http://localhost:3000";
+import { MapPin, Phone } from "lucide-react";
+import Link from "next/link";
+import { WEBSITE_NAME } from "@/app/cosntant";
 
 async function fetchRestaurants(
   state: string,
@@ -42,8 +38,8 @@ export async function generateMetadata({
   const { state, city } = await params;
 
   return {
-    title: `Best Vietnamese Restaurants in ${convertHyphenToSpace(city)}, ${state} | ${defaultUrl}`,
-    description: `Find the Best Vietnamese Restaurant in ${convertHyphenToSpace(city)}, ${state}`,
+    title: `Best Pho Restaurants in ${capitalizeFirstLetter(convertHyphenToSpace(city))}, ${capitalizeFirstLetter(state)} - ${WEBSITE_NAME}`,
+    description: `Find the Best Pho Restaurant in ${convertHyphenToSpace(city)}, ${state}`,
   };
 }
 
@@ -55,14 +51,18 @@ export default async function StatesPage({
   const { state, city } = await params;
   const dataList = await fetchRestaurants(state, convertHyphenToSpace(city));
 
+  const end = 15;
+
   if (!dataList) {
     return notFound();
   }
 
+  const pageData = dataList.slice(0, end);
+
   return (
     <main className="min-h-screen flex flex-col gap-6 p-2 md:p-5 mt-4 max-w-7xl w-full">
       <h1 className="text-lg sm:text-xl md:text-3xl font-bold">
-        Best Vietnamese Restaurants in{" "}
+        Best Pho Restaurants in{" "}
         <span className="text-primary">
           {capitalizeFirstLetter(convertHyphenToSpace(city))}
           {","}
@@ -70,11 +70,16 @@ export default async function StatesPage({
         <span className="text-primary">{capitalizeFirstLetter(state)}</span>
       </h1>
       <div className="flex flex-col gap-6">
-        {dataList.map((data, key) => (
+        {pageData.map((data, key) => (
           <div key={key}>
-            <Card className="p-4 hover:shadow-lg transition-shadow h-full border-2 overflow-hidden">
-              <div className="w-[calc(100% + 80px)] h-2 bg-primary -mt-4 -mx-10" />
-              <CardContent className="flex flex-col gap-4 py-6">
+            <Card className="p-2 md:p-4 hover:shadow-lg transition-shadow h-full border-2 overflow-hidden">
+              <div className="w-[calc(100% + 80px)] h-2 bg-primary -mt-2 md:-mt-4 -mx-10" />
+              <CardContent className="relative flex flex-col gap-4 py-6">
+                {key < 10 && (
+                  <div className="absolute top-4 right-0 w-6 h-6 rounded-full bg-primary flex justify-center items-center">
+                    <p className="text-white">{key + 1}</p>
+                  </div>
+                )}
                 <div className="flex flex-col gap-1">
                   <a
                     href={`/${state}/${city}/1/${data.id}`}
@@ -84,13 +89,14 @@ export default async function StatesPage({
                       {data.name}
                     </h2>
                   </a>
-                  <p className="text-xs text-muted-foreground">{data.type}</p>
-                  <p className="text-xs md:text-sm">
-                    Restaurant Location:{" "}
-                    <span className="text-muted-foreground">
-                      {data.full_address}
-                    </span>
-                  </p>
+                  {data.full_address && (
+                    <p className="text-xs md:text-sm">
+                      Restaurant Location:{" "}
+                      <span className="text-muted-foreground">
+                        {data.full_address}
+                      </span>
+                    </p>
+                  )}
                 </div>
                 <div className="w-full h-[2px] bg-primary" />
                 <div className="flex flex-col gap-3">
@@ -98,22 +104,13 @@ export default async function StatesPage({
                     {data.description ??
                       `Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.`}
                   </p>
-                  <p className="text-xs md:text-sm text-black truncate">
-                    <span className="text-muted-foreground">Price Range: </span>
-                    {data.range}{" "}
-                  </p>
-                </div>
-                <div className="grid grid-cols-3 sm:grid-cols-4 md:grid-cols-5 gap-4 mt-4">
-                  {dining.map((category) =>
-                    getTrueFeatures(data.about[category]).map((item) => (
-                      <Badge
-                        key={item}
-                        variant="secondary"
-                        className="px-2 md:px-4 w-fit"
-                      >
-                        {item}
-                      </Badge>
-                    ))
+                  {data.range && (
+                    <p className="text-xs md:text-sm text-black truncate">
+                      <span className="text-muted-foreground">
+                        Price Range:{" "}
+                      </span>
+                      {data.range}{" "}
+                    </p>
                   )}
                 </div>
                 <Button
@@ -130,11 +127,33 @@ export default async function StatesPage({
                     Get Direction
                   </a>
                 </Button>
+                <Button
+                  size="sm"
+                  asChild
+                  className="bg-primary-light hover:bg-primary"
+                >
+                  {data.phone && (
+                    <a href={`tel:${data.phone}`} className="flex gap-2">
+                      <Phone className="h-4 w-6" />
+                      Call: {data.phone}
+                    </a>
+                  )}
+                </Button>
               </CardContent>
             </Card>
           </div>
         ))}
       </div>
+
+      {dataList.length >= end && (
+        <div className="mt-2 flex flex-1">
+          <Button variant="link" asChild className="w-full">
+            <Link href={`/${state}/${city}/2`} passHref>
+              View more businesses
+            </Link>
+          </Button>
+        </div>
+      )}
     </main>
   );
 }

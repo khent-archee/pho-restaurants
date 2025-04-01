@@ -19,10 +19,7 @@ import { notFound } from "next/navigation";
 import { createClient } from "@/utils/supabase/client";
 import { Button } from "@/components/ui/button";
 import { Metadata } from "next";
-
-const defaultUrl = process.env.VERCEL_URL
-  ? `${process.env.VERCEL_URL}`
-  : "http://localhost:3000";
+import { WEBSITE_NAME } from "@/app/cosntant";
 
 const daysOrder = [
   "Monday",
@@ -59,7 +56,7 @@ export async function generateMetadata({
   const restaurantData = await fetchRestaurants(id);
 
   return {
-    title: `${restaurantData?.name} | ${defaultUrl}`,
+    title: `${restaurantData?.name} - ${restaurantData?.type} in ${restaurantData?.city}, ${restaurantData?.us_state} - ${WEBSITE_NAME}`,
     description: `${restaurantData?.description}`,
   };
 }
@@ -99,6 +96,19 @@ export default async function RestaurantPage({
               </h2>
             </div>
             <div className="flex flex-row gap-2">
+              <Button
+                asChild
+                className="border-primary-dark text-sm md:text-lg"
+                size="lg"
+              >
+                <a
+                  target="_blank"
+                  href={restaurantData.location_link}
+                  className="flex gap-2"
+                >
+                  View Website
+                </a>
+              </Button>
               {restaurantData.location_link && (
                 <Button
                   asChild
@@ -148,7 +158,7 @@ export default async function RestaurantPage({
         <section className="flex flex-col md:flex-row gap-6 max-w-7xl w-full">
           <div className="flex-1 flex flex-col p-5 gap-4">
             <h3 className="font-bold text-2xl md:text-4xl text-primary">
-              About this Restaurant
+              About this restaurant
             </h3>
             <p className="text-sm md:text-md">
               {restaurantData.description !== null

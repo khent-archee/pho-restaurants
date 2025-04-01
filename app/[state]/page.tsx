@@ -3,13 +3,10 @@ import React from "react";
 import { notFound } from "next/navigation";
 import { createClient } from "@/utils/supabase/client";
 import Link from "next/link";
-import { Card, CardTitle } from "@/components/ui/card";
+import { Card } from "@/components/ui/card";
 import { Metadata } from "next";
-import { convertSpaceToHyphen } from "@/lib/utils";
-
-const defaultUrl = process.env.VERCEL_URL
-  ? `${process.env.VERCEL_URL}`
-  : "http://localhost:3000";
+import { capitalizeFirstLetter, convertSpaceToHyphen } from "@/lib/utils";
+import { WEBSITE_NAME } from "../cosntant";
 
 async function fetchCities(state: string): Promise<string[] | null> {
   const supabase = await createClient();
@@ -36,8 +33,8 @@ export async function generateMetadata({
   const { state } = await params; // Access the state from params
 
   return {
-    title: `Best Vietnamese Restaurants in ${state} | ${defaultUrl}`,
-    description: `Find the Best Vietnamese Restaurant in ${state}`,
+    title: `Best Pho Restaurants in ${capitalizeFirstLetter(state)} - ${WEBSITE_NAME}`,
+    description: `Find the Best Pho Restaurant in ${state}`,
   };
 }
 
@@ -55,12 +52,12 @@ export default async function StatesPage({
 
   return (
     <main className="flex flex-col gap-10 p-5 mt-10 max-w-7xl w-full">
-      <h1 className="text-lg sm:text-xl md:text-3xl font-bold">{`Best Vietnamese Restaurants in ${state}`}</h1>
+      <h1 className="text-lg sm:text-xl md:text-3xl font-bold">{`Best Pho Restaurants in ${state}`}</h1>
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 ">
         {citiesData.map((city, key) => (
           <div key={key}>
             <Link
-              href={`/${state}/${convertSpaceToHyphen(city.toLocaleLowerCase())}/1`}
+              href={`/${state}/${convertSpaceToHyphen(city.toLocaleLowerCase())}`}
             >
               <Card className="p-4 hover:shadow-lg transition-shadow overflow-hidden flex flex-col gap-4">
                 <div className="w-[calc(100% + 80px)] h-2 bg-primary -mt-4 -mx-10" />

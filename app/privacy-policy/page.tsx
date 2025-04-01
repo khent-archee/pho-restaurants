@@ -1,10 +1,19 @@
 import { Card, CardContent } from "@/components/ui/card";
+import { WEBSITE_NAME } from "../cosntant";
 
 const textStyles = {
   h1: "text-4xl font-bold mb-10 text-center text-primary",
   h2: "text-2xl font-bold mb-2 text-primary-light",
   p: "mb-4 ml-6",
   ul: "list-disc ml-16 mb-4",
+};
+
+export const generateMetadata = () => {
+  return {
+    title: `Privacy Policy - ${WEBSITE_NAME}`,
+    description:
+      "Learn how we collect, use, and protect your personal information. Your privacy is important to us, and we are committed to keeping your data secure.",
+  };
 };
 
 export default function PrivacyPolicy() {

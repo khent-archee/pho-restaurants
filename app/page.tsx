@@ -8,6 +8,7 @@ import { Metadata } from "next";
 import FAQContent from "@/components/FAQ";
 import Image from "next/image";
 import { convertSpaceToHyphen } from "@/lib/utils";
+import { WEBSITE_NAME } from "./cosntant";
 
 const defaultUrl = process.env.VERCEL_URL
   ? `${process.env.VERCEL_URL}`
@@ -39,8 +40,8 @@ async function fetchStates(): Promise<{
 }
 
 export const metadata: Metadata = {
-  title: `Best Vietnamese Restaurants by State | ${defaultUrl}`,
-  description: "Find the Best Vietnamese Restaurants by State.",
+  title: `Best Pho Restaurants Near You - ${WEBSITE_NAME}`,
+  description: "Find the Best Pho Restaurants by State.",
 };
 
 export default async function RestaurantPage() {
@@ -73,13 +74,13 @@ export default async function RestaurantPage() {
           <div className="absolute inset-0 bg-black opacity-70" />
           <div className="absolute inset-0 flex flex-col justify-center items-center gap-4 text-center px-4">
             <h1 className="text-white text-3xl md:text-5xl font-bold mb-4">
-              Best Vietnamese Restaurant Near You
+              Best Pho Restaurant Near You
             </h1>
             <p className="text-white text-md sm:text-lg font-thin md:text-xl max-w-3xl">
-              Discover the best Vietnamese restaurants near you, serving
-              authentic dishes made with fresh ingredients and traditional
-              recipes. Enjoy classic favorites like pho, banh mi, and spring
-              rolls. Find your next favorite Vietnamese spot today!
+              Discover the best Pho restaurants near you, serving authentic
+              dishes made with fresh ingredients and traditional recipes. Enjoy
+              classic favorites like pho, banh mi, and spring rolls. Find your
+              next favorite Pho spot today!
             </p>
           </div>
         </div>
@@ -87,7 +88,7 @@ export default async function RestaurantPage() {
 
       <section className="flex flex-col gap-4 max-w-7xl w-full p-4">
         <h2 className="text-lg sm:text-xl md:text-3xl font-bold">
-          Vietnamese Restaurants in Popular Cities
+          Pho Restaurants in Popular Cities
         </h2>
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 ">
           {data.cities.map((city, key) => {
@@ -95,7 +96,7 @@ export default async function RestaurantPage() {
             return (
               <div key={key}>
                 <Link
-                  href={`/${state.toLowerCase()}/${convertSpaceToHyphen(cityName.toLowerCase())}/1`}
+                  href={`/${state.toLowerCase()}/${convertSpaceToHyphen(cityName.toLowerCase())}`}
                 >
                   <Card className="p-4 hover:shadow-lg transition-shadow overflow-hidden flex flex-col gap-4">
                     <div className="w-[calc(100% + 80px)] h-2 bg-primary -mt-4 -mx-10" />
@@ -112,7 +113,7 @@ export default async function RestaurantPage() {
 
       <section className="flex flex-col gap-4 max-w-7xl w-full p-4">
         <h2 className="text-lg sm:text-xl md:text-3xl font-bold">
-          Vietnamese Restaurants by State
+          Pho Restaurants by State
         </h2>
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 ">
           {data.states.map((state, key) => (
