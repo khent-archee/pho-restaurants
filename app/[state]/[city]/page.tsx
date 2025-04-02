@@ -4,7 +4,11 @@ import { notFound } from "next/navigation";
 import { createClient } from "@/utils/supabase/client";
 import { Card, CardContent, CardTitle } from "@/components/ui/card";
 import { Restaurant } from "@/app/types/reastaurant";
-import { capitalizeFirstLetter, convertHyphenToSpace } from "@/lib/utils";
+import {
+  capitalizeFirstLetter,
+  convertHyphenToSpace,
+  convertSpaceToHyphen,
+} from "@/lib/utils";
 import { Metadata } from "next";
 import { Button } from "@/components/ui/button";
 import { MapPin, Phone } from "lucide-react";
@@ -38,7 +42,7 @@ export async function generateMetadata({
   const { state, city } = await params;
 
   return {
-    title: `Best Pho Restaurants in ${capitalizeFirstLetter(convertHyphenToSpace(city))}, ${capitalizeFirstLetter(state)} - ${WEBSITE_NAME}`,
+    title: `Best Pho in ${capitalizeFirstLetter(convertHyphenToSpace(city))}, ${capitalizeFirstLetter(state)} - ${WEBSITE_NAME}`,
     description: `Find the Best Pho Restaurant in ${convertHyphenToSpace(city)}, ${state}`,
   };
 }
@@ -62,7 +66,7 @@ export default async function StatesPage({
   return (
     <main className="min-h-screen flex flex-col gap-6 p-2 md:p-5 mt-4 max-w-7xl w-full">
       <h1 className="text-lg sm:text-xl md:text-3xl font-bold">
-        Best Pho Restaurants in{" "}
+        Best Pho in{" "}
         <span className="text-primary">
           {capitalizeFirstLetter(convertHyphenToSpace(city))}
           {","}
@@ -82,7 +86,7 @@ export default async function StatesPage({
                 )}
                 <div className="flex flex-col gap-1">
                   <a
-                    href={`/${state}/${city}/1/${data.id}`}
+                    href={`/${state}/${city}/restaurant/${data.id}`}
                     className="flex gap-2 hover:underline"
                   >
                     <h2 className="text-xl sm:text-2xl md:text-3xl font-bold md:font-medium">
@@ -91,7 +95,7 @@ export default async function StatesPage({
                   </a>
                   {data.full_address && (
                     <p className="text-xs md:text-sm">
-                      Restaurant Location:{" "}
+                      Restaurant Address:{" "}
                       <span className="text-muted-foreground">
                         {data.full_address}
                       </span>
@@ -124,7 +128,7 @@ export default async function StatesPage({
                     className="flex gap-2"
                   >
                     <MapPin className="h-4 w-6" />
-                    Get Direction
+                    Get Directions
                   </a>
                 </Button>
                 <Button
@@ -177,7 +181,7 @@ export async function generateStaticParams() {
   });
 
   return uniqueCityState.map((data) => ({
-    state: data.state,
-    city: data.city,
+    state: data.state.toLowerCase(),
+    city: convertSpaceToHyphen(data.city.toLowerCase()),
   }));
 }

@@ -4,7 +4,7 @@ import Image from "next/image";
 export default function Logo() {
   return (
     <div className="flex flex-col justify-center items-center">
-      <div className="relative h-12 w-12 md:h-20 md:w-20">
+      <div className="relative h-16 w-16 md:h-20 md:w-20">
         <Image
           src="/logo/logo.png"
           alt="logo"

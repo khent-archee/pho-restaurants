@@ -52,7 +52,7 @@ export default async function StatesPage({
 
   return (
     <main className="flex flex-col gap-10 p-5 mt-10 max-w-7xl w-full">
-      <h1 className="text-lg sm:text-xl md:text-3xl font-bold">{`Best Pho Restaurants in ${state}`}</h1>
+      <h1 className="text-lg sm:text-xl md:text-3xl font-bold">{`Best Pho Restaurants in ${capitalizeFirstLetter(state)}`}</h1>
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 ">
         {citiesData.map((city, key) => (
           <div key={key}>

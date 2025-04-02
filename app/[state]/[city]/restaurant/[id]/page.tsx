@@ -19,6 +19,7 @@ import { createClient } from "@/utils/supabase/client";
 import { Button } from "@/components/ui/button";
 import { Metadata } from "next";
 import { WEBSITE_NAME } from "@/app/cosntant";
+import { convertSpaceToHyphen } from "@/lib/utils";
 
 const daysOrder = [
   "Monday",
@@ -120,7 +121,7 @@ export default async function RestaurantPage({
                     className="flex gap-2"
                   >
                     <MapPin />
-                    Get Direction
+                    Get Directions
                   </a>
                 </Button>
               )}
@@ -329,8 +330,7 @@ export async function generateStaticParams() {
 
   return restaurants.map((restaurant) => ({
     id: restaurant.id.toString(),
-    state: restaurant.us_state.toString(),
-    city: restaurant.city.toString(),
-    page: "1",
+    state: restaurant.us_state.toString().toLowerCase(),
+    city: convertSpaceToHyphen(restaurant.city.toString().toLowerCase()),
   }));
 }

@@ -88,7 +88,7 @@ export default async function RestaurantPage() {
 
       <section className="flex flex-col gap-4 max-w-7xl w-full p-4">
         <h2 className="text-lg sm:text-xl md:text-3xl font-bold">
-          Pho Restaurants in Popular Cities
+          Best Pho Restaurants in Popular Cities
         </h2>
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 ">
           {data.cities.map((city, key) => {
