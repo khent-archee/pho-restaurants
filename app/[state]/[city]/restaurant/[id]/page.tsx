@@ -163,9 +163,9 @@ export default async function RestaurantPage({
         {/* Quick Info Section */}
         <section className="flex flex-col md:flex-row gap-6 max-w-7xl w-full">
           <div className="flex-1 flex flex-col p-5 gap-4">
-            <h3 className="font-bold text-2xl md:text-3xl text-primary">
+            <h2 className="font-bold text-2xl md:text-3xl text-primary">
               About this restaurant
-            </h3>
+            </h2>
             <p className="text-md md:text-lg">
               {restaurantData.description !== null
                 ? restaurantData.description
