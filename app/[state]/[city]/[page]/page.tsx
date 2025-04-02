@@ -87,14 +87,14 @@ export default async function StatesPage({
                   </div>
                 )}
                 <div className="flex flex-col gap-1">
-                  <a
+                  <Link
                     href={`/${state}/${city}/restaurant/${data.id}`}
                     className="flex gap-2 hover:underline"
                   >
                     <h2 className="text-xl sm:text-2xl md:text-3xl font-bold md:font-medium">
                       {data.name}
                     </h2>
-                  </a>
+                  </Link>
                   {data.full_address && (
                     <p className="text-xs md:text-sm">
                       Restaurant Address:{" "}

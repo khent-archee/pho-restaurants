@@ -85,14 +85,14 @@ export default async function StatesPage({
                   </div>
                 )}
                 <div className="flex flex-col gap-1">
-                  <a
+                  <Link
                     href={`/${state}/${city}/restaurant/${data.id}`}
                     className="flex gap-2 hover:underline"
                   >
                     <h2 className="text-xl sm:text-2xl md:text-3xl font-bold md:font-medium">
                       {data.name}
                     </h2>
-                  </a>
+                  </Link>
                   {data.full_address && (
                     <p className="text-xs md:text-sm">
                       Restaurant Address:{" "}
@@ -104,7 +104,7 @@ export default async function StatesPage({
                 </div>
                 <div className="w-full h-[2px] bg-primary" />
                 <div className="flex flex-col gap-3">
-                  <p className="text-sm md:text-md">
+                  <p className="text-md md:text-lg">
                     {data.description ??
                       `Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.`}
                   </p>

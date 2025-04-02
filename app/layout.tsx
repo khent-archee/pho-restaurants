@@ -54,7 +54,7 @@ export default function RootLayout({
               </div>
               <footer className="w-full flex justify-center p-6 bg-white dark:bg-black">
                 <div className="max-w-7xl w-full flex flex-col gap-6">
-                  <div className="flex justify-between items-center">
+                  <div className="flex justify-between items-end md:items-center">
                     <Logo />
                     <div className="flex flex-row gap-4 text-sm md:text-md">
                       <Link href="/privacy-policy">Privacy Policy</Link>
