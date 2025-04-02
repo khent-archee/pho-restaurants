@@ -117,32 +117,34 @@ export default async function StatesPage({
                     </p>
                   )}
                 </div>
-                <Button
-                  size="sm"
-                  asChild
-                  className="bg-primary-light hover:bg-primary"
-                >
-                  <a
-                    target="_blank"
-                    href={data.location_link}
-                    className="flex gap-2"
+                {data.location_link && (
+                  <Button
+                    size="sm"
+                    asChild
+                    className="bg-primary-light hover:bg-primary"
                   >
-                    <MapPin className="h-4 w-6" />
-                    Get Directions
-                  </a>
-                </Button>
-                <Button
-                  size="sm"
-                  asChild
-                  className="bg-primary-light hover:bg-primary"
-                >
-                  {data.phone && (
+                    <a
+                      target="_blank"
+                      href={data.location_link}
+                      className="flex gap-2"
+                    >
+                      <MapPin className="h-4 w-6" />
+                      Get Directions
+                    </a>
+                  </Button>
+                )}
+                {data.phone && (
+                  <Button
+                    size="sm"
+                    asChild
+                    className="bg-primary-light hover:bg-primary"
+                  >
                     <a href={`tel:${data.phone}`} className="flex gap-2">
                       <Phone className="h-4 w-6" />
                       Call: {data.phone}
                     </a>
-                  )}
-                </Button>
+                  </Button>
+                )}
               </CardContent>
             </Card>
           </div>
