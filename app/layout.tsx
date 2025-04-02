@@ -59,7 +59,7 @@ export default function RootLayout({
                     <div className="flex flex-row gap-4 text-sm md:text-md">
                       <Link href="/privacy-policy">Privacy Policy</Link>
                       <Link href="/contact">Contact</Link>
-                      <Link href="/about-us">About us</Link>
+                      <Link href="/about-us">About Us</Link>
                     </div>
                   </div>
                   <div className="bg-primary w-full h-[1px]" />

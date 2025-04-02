@@ -20,6 +20,7 @@ import { Button } from "@/components/ui/button";
 import { Metadata } from "next";
 import { WEBSITE_NAME } from "@/app/cosntant";
 import { convertSpaceToHyphen } from "@/lib/utils";
+import Image from "next/image";
 
 const daysOrder = [
   "Monday",
@@ -78,12 +79,15 @@ export default async function RestaurantPage({
       <article className="w-full flex flex-col justify-center items-center gap-4">
         {/* Hero Section */}
         <section className="relative h-96 w-full overflow-hidden mb-8">
-          <div
-            className="absolute inset-0 bg-cover bg-center parallax-image"
-            style={{ backgroundImage: `url(/images/hero-image.jpg)` }}
-          >
-            <div className="absolute inset-0 bg-black opacity-30" />
-          </div>
+          <Image
+            src="/images/hero-image.jpg"
+            alt="Hero"
+            layout="fill"
+            objectFit="cover"
+            quality={100}
+            priority
+          />
+          <div className="absolute inset-0 bg-black opacity-60" />
 
           <div className="absolute z-20 inset-0 bg-gradient-to-t from-black/70 to-transparent flex flex-col gap-4 justify-center items-center p-6 text-center">
             <div className="flex flex-col gap-2">
