@@ -100,19 +100,21 @@ export default async function RestaurantPage({
               </h2>
             </div>
             <div className="flex flex-row gap-2">
-              <Button
-                asChild
-                className="border-primary-dark text-md md:text-lg"
-                size="lg"
-              >
-                <a
-                  target="_blank"
-                  href={restaurantData.location_link}
-                  className="flex gap-2"
+              {restaurantData.site && (
+                <Button
+                  asChild
+                  className="border-primary-dark text-md md:text-lg"
+                  size="lg"
                 >
-                  View Website
-                </a>
-              </Button>
+                  <a
+                    target="_blank"
+                    href={restaurantData.site}
+                    className="flex gap-2"
+                  >
+                    View Website
+                  </a>
+                </Button>
+              )}
               {restaurantData.location_link && (
                 <Button
                   asChild
