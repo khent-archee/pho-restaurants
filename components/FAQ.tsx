@@ -10,14 +10,14 @@ export default function FAQContent() {
   return (
     <>
       <Card className="flex flex-col justify-center gap-2 p-4">
-        <h2 className="text-lg sm:text-xl md:text-2xl font-semibold text-center">
+        <h2 className="text-2xl font-semibold text-center">
           Frequently Asked Questions
         </h2>
         <Accordion type="multiple">
           <Accordion type="single" collapsible>
             <AccordionItem value="item-1">
               <AccordionTrigger>
-                <h3 className="text-md md:text-lg font-semibold">
+                <h3 className="text-xl font-semibold">
                   Lorem Ipsum
                 </h3>
               </AccordionTrigger>
@@ -38,7 +38,7 @@ export default function FAQContent() {
           <Accordion type="single" collapsible>
             <AccordionItem value="item-1">
               <AccordionTrigger>
-                <h3 className="text-md md:text-lg font-semibold">
+                <h3 className="text-xl font-semibold">
                   Lorem Ipsum
                 </h3>
               </AccordionTrigger>
@@ -59,7 +59,7 @@ export default function FAQContent() {
           <Accordion type="single" collapsible>
             <AccordionItem value="item-1">
               <AccordionTrigger>
-                <h3 className="text-md md:text-lg font-semibold">
+                <h3 className="text-xl font-semibold">
                   Lorem Ipsum
                 </h3>
               </AccordionTrigger>
@@ -80,7 +80,7 @@ export default function FAQContent() {
           <Accordion type="single" collapsible>
             <AccordionItem value="item-1">
               <AccordionTrigger>
-                <h3 className="text-md md:text-lg font-semibold">
+                <h3 className="text-xl font-semibold">
                   Lorem Ipsum
                 </h3>
               </AccordionTrigger>

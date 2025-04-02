@@ -65,7 +65,7 @@ export default async function StatesPage({
 
   return (
     <main className="min-h-screen flex flex-col gap-6 p-2 md:p-5 mt-4 max-w-7xl w-full">
-      <h1 className="text-lg sm:text-xl md:text-3xl font-bold">
+      <h1 className="text-2xl md:text-3xl font-bold">
         Best Pho in{" "}
         <span className="text-primary">
           {capitalizeFirstLetter(convertHyphenToSpace(city))}
@@ -89,12 +89,12 @@ export default async function StatesPage({
                     href={`/${state}/${city}/restaurant/${data.id}`}
                     className="flex gap-2 hover:underline"
                   >
-                    <h2 className="text-xl sm:text-2xl md:text-3xl font-bold md:font-medium">
+                    <h2 className="text-xl md:text-2xl font-bold md:font-semibold">
                       {data.name}
                     </h2>
                   </Link>
                   {data.full_address && (
-                    <p className="text-xs md:text-sm">
+                    <p className="text-sm md:text-md">
                       Restaurant Address:{" "}
                       <span className="text-muted-foreground">
                         {data.full_address}
@@ -109,7 +109,7 @@ export default async function StatesPage({
                       `Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.`}
                   </p>
                   {data.range && (
-                    <p className="text-xs md:text-sm text-black truncate">
+                    <p className="text-sm md:text-md text-black truncate">
                       <span className="text-muted-foreground">
                         Price Range:{" "}
                       </span>

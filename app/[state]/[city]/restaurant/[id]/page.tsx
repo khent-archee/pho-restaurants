@@ -98,7 +98,7 @@ export default async function RestaurantPage({
             <div className="flex flex-row gap-2">
               <Button
                 asChild
-                className="border-primary-dark text-sm md:text-lg"
+                className="border-primary-dark text-md md:text-lg"
                 size="lg"
               >
                 <a
@@ -112,7 +112,7 @@ export default async function RestaurantPage({
               {restaurantData.location_link && (
                 <Button
                   asChild
-                  className="border-primary-dark text-primary bg-white hover:bg-white/80 text-sm md:text-lg"
+                  className="border-primary-dark text-primary bg-white hover:bg-white/80 text-md md:text-lg"
                   size="lg"
                 >
                   <a
@@ -157,16 +157,16 @@ export default async function RestaurantPage({
         {/* Quick Info Section */}
         <section className="flex flex-col md:flex-row gap-6 max-w-7xl w-full">
           <div className="flex-1 flex flex-col p-5 gap-4">
-            <h3 className="font-bold text-2xl md:text-4xl text-primary">
+            <h3 className="font-bold text-2xl md:text-3xl text-primary">
               About this restaurant
             </h3>
-            <p className="text-sm md:text-md">
+            <p className="text-md md:text-lg">
               {restaurantData.description !== null
                 ? restaurantData.description
                 : `Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.`}
             </p>
             <br />
-            <p className="text-sm md:text-md">
+            <p className="md:text-md">
               <span className="text-muted-foreground">Address:&nbsp;</span>
               {restaurantData.full_address}
             </p>
