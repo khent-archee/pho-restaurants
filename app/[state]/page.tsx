@@ -5,7 +5,11 @@ import { createClient } from "@/utils/supabase/client";
 import Link from "next/link";
 import { Card } from "@/components/ui/card";
 import { Metadata } from "next";
-import { capitalizeFirstLetter, convertSpaceToHyphen } from "@/lib/utils";
+import {
+  capitalizeFirstLetter,
+  convertHyphenToSpace,
+  convertSpaceToHyphen,
+} from "@/lib/utils";
 import { WEBSITE_NAME } from "../cosntant";
 
 async function fetchCities(state: string): Promise<string[] | null> {
@@ -33,8 +37,8 @@ export async function generateMetadata({
   const { state } = await params; // Access the state from params
 
   return {
-    title: `Best Pho Restaurants in ${capitalizeFirstLetter(state)} - ${WEBSITE_NAME}`,
-    description: `Find the Best Pho Restaurant in ${state}`,
+    title: `Best Pho Restaurants in ${capitalizeFirstLetter(convertHyphenToSpace(state))} - ${WEBSITE_NAME}`,
+    description: `Find the Best Pho Restaurant in ${capitalizeFirstLetter(convertHyphenToSpace(state))}`,
   };
 }
 
@@ -44,7 +48,9 @@ export default async function StatesPage({
   params: Promise<{ state: string }>;
 }) {
   const { state } = await params;
-  const citiesData = await fetchCities(state);
+  const citiesData = await fetchCities(
+    capitalizeFirstLetter(convertHyphenToSpace(state))
+  );
 
   if (!citiesData) {
     return notFound();
@@ -91,6 +97,6 @@ export async function generateStaticParams() {
   console.log(uniqueStates);
 
   return uniqueStates.map((state) => ({
-    state: state,
+    state: convertSpaceToHyphen(state),
   }));
 }

@@ -1,4 +1,4 @@
-import React from "react";
+import React, { ReactNode } from "react";
 
 import { notFound } from "next/navigation";
 import { createClient } from "@/utils/supabase/client";
@@ -14,24 +14,39 @@ import { Button } from "@/components/ui/button";
 import { MapPin, Phone } from "lucide-react";
 import Link from "next/link";
 import { WEBSITE_NAME } from "@/app/cosntant";
+import { Badge } from "@/components/ui/badge";
 
 async function fetchRestaurants(
   state: string,
   city: string
 ): Promise<Restaurant[] | null> {
   const supabase = await createClient();
-  const { data: retaurants, error } = await supabase
+  const { data: restaurants, error } = await supabase
     .from("restaurants")
     .select()
     .ilike("us_state", `${state}`)
-    .ilike("city", `${city}`);
+    .ilike("city", `${city}`)
+    .order("rating", { ascending: false })
+    .order("reviews", { ascending: false });
 
-  if (error || !retaurants) {
+  if (error || !restaurants) {
     console.error(error);
     return null;
   }
 
-  return retaurants;
+  const sortedRestaurants = restaurants.sort((a, b) => {
+    const aReviews = a.reviews || 0;
+    const bReviews = b.reviews || 0;
+    if (aReviews >= 50 && bReviews < 50) {
+      return -1;
+    }
+    if (aReviews < 50 && bReviews >= 50) {
+      return 1;
+    }
+    return b.rating - a.rating;
+  });
+
+  return sortedRestaurants;
 }
 
 export async function generateMetadata({
@@ -42,10 +57,14 @@ export async function generateMetadata({
   const { state, city } = await params;
 
   return {
-    title: `Best Pho in ${capitalizeFirstLetter(convertHyphenToSpace(city))}, ${capitalizeFirstLetter(state)} - ${WEBSITE_NAME}`,
+    title: `Best Pho in ${capitalizeFirstLetter(convertHyphenToSpace(city))}, ${capitalizeFirstLetter(convertHyphenToSpace(state))} - ${WEBSITE_NAME}`,
     description: `Find the Best Pho Restaurant in ${convertHyphenToSpace(city)}, ${state}`,
   };
 }
+
+const StyledBadge = ({ children }: { children: ReactNode }) => {
+  return <Badge className="px-2 py-1 w-fit">{children}</Badge>;
+};
 
 export default async function StatesPage({
   params,
@@ -53,7 +72,9 @@ export default async function StatesPage({
   params: Promise<{ state: string; city: string }>;
 }) {
   const { state, city } = await params;
-  const dataList = await fetchRestaurants(state, convertHyphenToSpace(city));
+  const decodedCity = convertHyphenToSpace(city);
+  const decodedState = convertHyphenToSpace(state);
+  const dataList = await fetchRestaurants(decodedState, decodedCity);
 
   const end = 15;
 
@@ -92,6 +113,9 @@ export default async function StatesPage({
                     <h2 className="text-xl md:text-2xl font-bold md:font-semibold">
                       {data.name}
                     </h2>
+                    <p>
+                      {data.rating} {data.reviews}
+                    </p>
                   </Link>
                   {data.full_address && (
                     <p className="text-sm md:text-md">
@@ -117,6 +141,44 @@ export default async function StatesPage({
                     </p>
                   )}
                 </div>
+                <section>
+                  <h3 className="text-xl font-semibold">Pros and Cons</h3>
+                  <div className="grid grid-cols-5 gap-3">
+                    {data.broth && <StyledBadge>Broth</StyledBadge>}
+                    {data.chicken_pho && <StyledBadge>Chicken pho</StyledBadge>}
+                    {data.vegan_pho && <StyledBadge>Vegan pho</StyledBadge>}
+                    {data.brisket && <StyledBadge>Brisket</StyledBadge>}
+                    {data.oxtail && <StyledBadge>Oxtail</StyledBadge>}
+                    {data.banh_mi && <StyledBadge>Banh mi</StyledBadge>}
+                    {data.egg_rolls && <StyledBadge>Egg rolls</StyledBadge>}
+                    {data.spring_rolls && (
+                      <StyledBadge>Spring rolls</StyledBadge>
+                    )}
+                    {data.rice_vermicelli && (
+                      <StyledBadge>Rice vermicelli</StyledBadge>
+                    )}
+                    {data.boba && (
+                      <Badge className="px-2 py-1 w-fit">Boba</Badge>
+                    )}
+                    {data.vietnamese_coffee && (
+                      <StyledBadge>Vietnamese coffee</StyledBadge>
+                    )}
+                    {data.vietnamese_coffee && (
+                      <StyledBadge>Vietnamese coffee</StyledBadge>
+                    )}
+                    {data.portion_sizes && (
+                      <StyledBadge>Portion sizes</StyledBadge>
+                    )}
+                    {data.portion_sizes && (
+                      <StyledBadge>Portion sizes</StyledBadge>
+                    )}
+                    {data.spicy_options && (
+                      <StyledBadge>Spicy options</StyledBadge>
+                    )}
+                    {data.prices && <StyledBadge>Prices</StyledBadge>}
+                    {data.parking && <StyledBadge>Parking</StyledBadge>}
+                  </div>
+                </section>
                 {data.location_link && (
                   <Button
                     size="sm"
@@ -183,7 +245,7 @@ export async function generateStaticParams() {
   });
 
   return uniqueCityState.map((data) => ({
-    state: data.state.toLowerCase(),
+    state: convertSpaceToHyphen(data.state.toLowerCase()),
     city: convertSpaceToHyphen(data.city.toLowerCase()),
   }));
 }

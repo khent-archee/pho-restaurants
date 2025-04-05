@@ -178,28 +178,30 @@ export default async function RestaurantPage({
             </p>
           </div>
 
-          <Card className="md:basis-1/3 overflow-hidden mx-2 md:mx-0">
-            <div className="w-full h-2 bg-primary " />
-            <CardHeader className="flex flex-row items-center space-x-2">
-              <Clock className="h-5 w-5 text-primary" />
-              <CardTitle>Hours Open</CardTitle>
-            </CardHeader>
-            <CardContent>
-              <div className="flex flex-col gap-2 text-sm">
-                {Object.entries(restaurantData.working_hours)
-                  .sort(
-                    ([dayA], [dayB]) =>
-                      daysOrder.indexOf(dayA) - daysOrder.indexOf(dayB)
-                  )
-                  .map(([day, hours]) => (
-                    <div key={day} className="flex justify-between">
-                      <span className="font-medium">{day}</span>
-                      <span>{hours}</span>
-                    </div>
-                  ))}
-              </div>
-            </CardContent>
-          </Card>
+          {restaurantData.working_hours && (
+            <Card className="md:basis-1/3 overflow-hidden mx-2 md:mx-0">
+              <div className="w-full h-2 bg-primary " />
+              <CardHeader className="flex flex-row items-center space-x-2">
+                <Clock className="h-5 w-5 text-primary" />
+                <CardTitle>Hours Open</CardTitle>
+              </CardHeader>
+              <CardContent>
+                <div className="flex flex-col gap-2 text-sm">
+                  {Object.entries(restaurantData.working_hours)
+                    .sort(
+                      ([dayA], [dayB]) =>
+                        daysOrder.indexOf(dayA) - daysOrder.indexOf(dayB)
+                    )
+                    .map(([day, hours]) => (
+                      <div key={day} className="flex justify-between">
+                        <span className="font-medium">{day}</span>
+                        <span>{hours}</span>
+                      </div>
+                    ))}
+                </div>
+              </CardContent>
+            </Card>
+          )}
         </section>
 
         {/* Detailed Information */}
@@ -336,7 +338,7 @@ export async function generateStaticParams() {
 
   return restaurants.map((restaurant) => ({
     id: restaurant.id.toString(),
-    state: restaurant.us_state.toString().toLowerCase(),
+    state: convertSpaceToHyphen(restaurant.us_state.toString().toLowerCase()),
     city: convertSpaceToHyphen(restaurant.city.toString().toLowerCase()),
   }));
 }

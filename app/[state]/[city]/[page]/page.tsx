@@ -21,15 +21,29 @@ async function fetchRestaurants(
   const { data: restaurants, error } = await supabase
     .from("restaurants")
     .select()
-    .ilike("us_state", state)
-    .ilike("city", city);
+    .ilike("us_state", `${state}`)
+    .ilike("city", `${city}`)
+    .order("rating", { ascending: false })
+    .order("reviews", { ascending: false });
 
   if (error || !restaurants) {
     console.error(error);
     return null;
   }
 
-  return restaurants;
+  const sortedRestaurants = restaurants.sort((a, b) => {
+    const aReviews = a.reviews || 0;
+    const bReviews = b.reviews || 0;
+    if (aReviews >= 50 && bReviews < 50) {
+      return -1;
+    }
+    if (aReviews < 50 && bReviews >= 50) {
+      return 1;
+    }
+    return b.rating - a.rating;
+  });
+
+  return sortedRestaurants;
 }
 
 export async function generateMetadata({
@@ -40,8 +54,8 @@ export async function generateMetadata({
   const { state, city, page } = await params;
 
   return {
-    title: `Best Pho in ${capitalizeFirstLetter(convertHyphenToSpace(city))}, ${capitalizeFirstLetter(state)} - ${WEBSITE_NAME}`,
-    description: `Find the Best Pho Restaurant in ${capitalizeFirstLetter(convertHyphenToSpace(city))}, ${state}`,
+    title: `Best Pho in ${capitalizeFirstLetter(convertHyphenToSpace(city))}, ${capitalizeFirstLetter(convertHyphenToSpace(state))} - ${WEBSITE_NAME}`,
+    description: `Find the Best Pho Restaurant in ${capitalizeFirstLetter(convertHyphenToSpace(city))}, ${capitalizeFirstLetter(convertHyphenToSpace(state))}`,
   };
 }
 
@@ -52,8 +66,9 @@ export default async function StatesPage({
 }) {
   const { state, city, page } = await params;
   const decodedCity = convertHyphenToSpace(city);
+  const decodedState = convertHyphenToSpace(state);
 
-  const dataList = await fetchRestaurants(state, decodedCity);
+  const dataList = await fetchRestaurants(decodedState, decodedCity);
 
   if (!dataList) {
     return notFound();
@@ -195,7 +210,7 @@ export async function generateStaticParams() {
 
       for (let page = 1; page <= chunks; page++) {
         staticParams.push({
-          state: state.toLowerCase(),
+          state: convertSpaceToHyphen(state.toLowerCase()),
           city: convertSpaceToHyphen(city.toLowerCase()),
           page: page.toString(),
         });

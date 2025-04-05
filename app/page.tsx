@@ -91,12 +91,12 @@ export default async function RestaurantPage() {
           Best Pho Restaurants in Popular Cities
         </h2>
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 ">
-          {data.cities.map((city, key) => {
+          {data.cities.splice(0, 10).map((city, key) => {
             const { city: cityName, state } = getCityState(city);
             return (
               <div key={key}>
                 <Link
-                  href={`/${state.toLowerCase()}/${convertSpaceToHyphen(cityName.toLowerCase())}`}
+                  href={`/${convertSpaceToHyphen(state.toLowerCase())}/${convertSpaceToHyphen(cityName.toLowerCase())}`}
                 >
                   <Card className="p-4 hover:shadow-lg transition-shadow overflow-hidden flex flex-col gap-4">
                     <div className="w-[calc(100% + 80px)] h-2 bg-primary -mt-4 -mx-10" />
@@ -118,7 +118,7 @@ export default async function RestaurantPage() {
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 ">
           {data.states.map((state, key) => (
             <div key={key}>
-              <Link href={`/${state.toLowerCase()}`}>
+              <Link href={`/${convertSpaceToHyphen(state.toLowerCase())}`}>
                 <Card className="p-4 hover:shadow-lg transition-shadow overflow-hidden flex flex-col gap-4">
                   <div className="w-[calc(100% + 80px)] h-2 bg-primary -mt-4 -mx-10" />
                   <h3 className="text-lg sm:text-xl md:text-3xl font-medium">
